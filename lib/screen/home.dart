@@ -64,9 +64,9 @@ class _HomePageState extends State<HomePage> {
                 height: 500,
               ),
             ),
-            Divider(color: Colors.transparent),
+            const Divider(color: Colors.transparent),
             Padding(
-              padding: EdgeInsets.only(top: 150),
+              padding: const EdgeInsets.only(top: 150),
               child: Column(
                 children: [
                   ListTile(
@@ -123,14 +123,70 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: _buildAppBar(context),
       drawer: _buildDrawer(),
-      body: IndexedStack(
-        index: _selectedIndex,
+      body: GridView.count(
+        crossAxisCount: 2,
         children: [
-          NowPlaying(filePath: _filePath),
-          Container(),
-          AllSongsPage(onSongSelected: _onSongSelected),
-          Container(),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.white, 
+               shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+               )
+            ),
+            onPressed: () {},
+             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.favorite, color: Colors.red),
+                SizedBox(height: 20),
+                const Text('FAVORITES'),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.white, 
+               shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+               )
+            ),
+            onPressed: () {},
+             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.playlist_play),
+                SizedBox(height: 20),
+                const Text('DRIVING PLAYLIST'),
+              ],
+            ),
+          ),
+          ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.white, 
+               shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+               )
+            ),
+            onPressed: () {},
+             child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(Icons.playlist_play),
+                SizedBox(height: 20),
+                const Text('SLEEPING PLAYLIST'),
+              ],
+            ),
+          ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: const Color.fromARGB(255, 0, 0, 0),
+        foregroundColor: Color.fromARGB(255, 255, 255, 255),
+        onPressed: () {},
+        child: Icon(Icons.add),
       ),
     );
   }

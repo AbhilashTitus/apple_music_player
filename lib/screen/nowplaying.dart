@@ -118,6 +118,7 @@ class _NowPlayingState extends State<NowPlaying> {
           Padding(
             padding: const EdgeInsets.all(20.0),
             child: Card(
+              color: Colors.grey[200],
               elevation: 10.0,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),
@@ -190,6 +191,7 @@ class _NowPlayingState extends State<NowPlaying> {
             onChanged: (value) {
               audioPlayer.seek(Duration(seconds: value.toInt()));
             },
+             activeColor: Colors.black,
           ),
           const SizedBox(height: 1),
           Row(
