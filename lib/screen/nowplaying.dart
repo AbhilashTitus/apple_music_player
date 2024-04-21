@@ -1,10 +1,12 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 class NowPlaying extends StatefulWidget {
-  const NowPlaying({Key? key,required this.filePath}) : super(key: key);
   final String filePath;
 
+  const NowPlaying({super.key, required this.filePath});
 
   @override
   _NowPlayingState createState() => _NowPlayingState();
@@ -32,10 +34,20 @@ class _NowPlayingState extends State<NowPlaying> {
     _initAudio();
   }
 
+  @override
+  void didUpdateWidget(covariant NowPlaying oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.filePath != widget.filePath) {
+      _initAudio();
+    }
+  }
+
   Future<void> _initAudio() async {
-    
-  String audioFile = widget.filePath;
+    String audioFile = widget.filePath;
     try {
+      if (isPlaying) {
+        await audioPlayer.stop();
+      }
       await audioPlayer.setFilePath(audioFile);
       audioPlayer.playerStateStream.listen((playerState) {
         if (playerState.playing != isPlaying) {
@@ -56,9 +68,10 @@ class _NowPlayingState extends State<NowPlaying> {
           totalDuration = duration ?? Duration.zero;
         });
       });
+      await audioPlayer.play();
     } catch (e) {
       // catch load errors: 404, invalid url ...
-      print("An error occurred $e");
+      // print("An error occurred $e");
     }
   }
 
@@ -89,10 +102,11 @@ class _NowPlayingState extends State<NowPlaying> {
     super.dispose();
     audioPlayer.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:  AppBar(
+      appBar: AppBar(
         title: const Text(
           'N O W  P L A Y I N G',
           textAlign: TextAlign.center,
@@ -116,14 +130,13 @@ class _NowPlayingState extends State<NowPlaying> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Hero(
-                      tag:
-                          Text(
-                            '$songTitle-$index', 
-                            style: const TextStyle(
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                      tag: Text(
+                        '$songTitle-$index',
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                       child: Container(
                         height: 200,
                         width: 200,

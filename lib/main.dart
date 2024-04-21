@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:apple_music_player/controls/bottom_navigation_bar.dart';
 import 'package:apple_music_player/screen/allsongs.dart';
 import 'package:apple_music_player/screen/home.dart';
@@ -34,6 +36,7 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0; 
+  String _filePath = '';
 
   void _onItemTapped(int index) {
     setState(() {
@@ -41,16 +44,22 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  void _onSongSelected(String filePath) {
+    setState(() {
+      _filePath = filePath;
+      _selectedIndex = 0; // Assuming NowPlaying is at index 0
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IndexedStack(
         index: _selectedIndex,
-        children: const [
-          NowPlaying(filePath: '',), 
-          HomePage(), 
-          AllSongsPage(), 
+        children: [
+          NowPlaying(filePath: _filePath,), 
+          const HomePage(), 
+          AllSongsPage(onSongSelected: _onSongSelected), 
           // const Search(),
         ],
       ),

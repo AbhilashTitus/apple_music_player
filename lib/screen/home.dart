@@ -13,8 +13,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 1; 
+  int _selectedIndex = 1;
+  String _filePath = '';
 
+  void _onSongSelected(String filePath) {
+    setState(() {
+      _filePath = filePath;
+      _selectedIndex = 0; // Assuming NowPlaying is at index 0
+    });
+  }
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     if (_selectedIndex == 1) {
@@ -28,7 +35,7 @@ class _HomePageState extends State<HomePage> {
           builder: (context) => IconButton(
             icon: const Icon(Icons.menu),
             onPressed: () {
-              Scaffold.of(context).openDrawer(); 
+              Scaffold.of(context).openDrawer();
             },
           ),
         ),
@@ -60,9 +67,9 @@ class _HomePageState extends State<HomePage> {
             title: const Text('HOME'),
             onTap: () {
               setState(() {
-                _selectedIndex = 1; 
+                _selectedIndex = 1;
               });
-              Navigator.pop(context); 
+              Navigator.pop(context);
             },
           ),
           ListTile(
@@ -76,9 +83,7 @@ class _HomePageState extends State<HomePage> {
           ),
           ListTile(
             title: const Text('SETTINGS'),
-            onTap: () {
-
-            },
+            onTap: () {},
           ),
         ],
       ),
@@ -93,9 +98,9 @@ class _HomePageState extends State<HomePage> {
       body: IndexedStack(
         index: _selectedIndex,
         children: [
-          const NowPlaying(filePath: '',), 
-          Container(), 
-          const AllSongsPage(), 
+          NowPlaying(filePath: _filePath),
+          Container(),
+          AllSongsPage(onSongSelected: _onSongSelected),
           Container(),
         ],
       ),

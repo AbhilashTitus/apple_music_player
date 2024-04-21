@@ -1,10 +1,14 @@
-import 'package:apple_music_player/screen/nowplaying.dart';
+// import 'package:apple_music_player/screen/nowplaying.dart';
+// ignore_for_file: library_private_types_in_public_api, prefer_final_fields, unused_field, unused_local_variable
+
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class AllSongsPage extends StatefulWidget {
-  const AllSongsPage({super.key});
+  final Function(String) onSongSelected;
+
+  const AllSongsPage({super.key, required this.onSongSelected});
 
   @override
   _AllSongsPageState createState() => _AllSongsPageState();
@@ -25,7 +29,7 @@ class _AllSongsPageState extends State<AllSongsPage> {
     PermissionStatus permission = await Permission.audio.request();
 
     List<SongModel> tempList = await OnAudioQuery().querySongs();
-    print(tempList.length);
+    // print(tempList.length);
 
     // }
   }
@@ -53,15 +57,11 @@ class _AllSongsPageState extends State<AllSongsPage> {
                     itemCount: snapshot.data?.length ?? 0,
                     itemBuilder: (context, index) {
                       SongModel song = snapshot.data![index];
-                      print(song);
+                      // print(song);
                       return ListTile(
                         title: Text(song.title),
                         subtitle: Text(song.artist ?? ''),
-                        onTap: () => Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (_) =>
-                                    NowPlaying(filePath:song.data))),
+                        onTap: () => widget.onSongSelected(song.data),
                       );
                     },
                   ),
