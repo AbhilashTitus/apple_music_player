@@ -1,5 +1,4 @@
 // ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -20,7 +19,7 @@ class _NowPlayingState extends State<NowPlaying> {
 
   String songTitle = 'Batman Theme';
   String artist = 'Hans Zimmer';
-  String albumArt = 'assets/reclogo.png';
+  String albumArt = 'assets/newlogo.png';
 
   Duration currentPosition = Duration.zero;
   Duration totalDuration = Duration.zero;
@@ -70,8 +69,7 @@ class _NowPlayingState extends State<NowPlaying> {
       });
       await audioPlayer.play();
     } catch (e) {
-      // catch load errors: 404, invalid url ...
-      // print("An error occurred $e");
+      // print("An error occurred");
     }
   }
 
@@ -207,7 +205,7 @@ class _NowPlayingState extends State<NowPlaying> {
                   borderRadius: BorderRadius.circular(15.0),
                   elevation: 5.0,
                   child: IconButton(
-                    onPressed: () {}, // Add skipPrevious functionality here
+                    onPressed: () {}, 
                     icon: const Icon(Icons.skip_previous),
                   ),
                 ),
@@ -240,7 +238,7 @@ class _NowPlayingState extends State<NowPlaying> {
                   borderRadius: BorderRadius.circular(15.0),
                   elevation: 5.0,
                   child: IconButton(
-                    onPressed: () {}, // Add skipNext functionality here
+                    onPressed: () {}, 
                     icon: const Icon(Icons.skip_next),
                   ),
                 ),

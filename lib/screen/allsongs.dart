@@ -1,6 +1,5 @@
-// import 'package:apple_music_player/screen/nowplaying.dart';
+// import 'package:apple_music_player/screen/nowplaying.dart'; 
 // ignore_for_file: library_private_types_in_public_api, prefer_final_fields, unused_field, unused_local_variable
-
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';

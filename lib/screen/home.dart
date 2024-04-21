@@ -1,5 +1,4 @@
 // ignore_for_file: library_private_types_in_public_api
-
 import 'package:apple_music_player/screen/allsongs.dart';
 import 'package:apple_music_player/screen/nowplaying.dart';
 import 'package:apple_music_player/screen/recorder/recordscreen.dart';
@@ -19,7 +18,7 @@ class _HomePageState extends State<HomePage> {
   void _onSongSelected(String filePath) {
     setState(() {
       _filePath = filePath;
-      _selectedIndex = 0; // Assuming NowPlaying is at index 0
+      _selectedIndex = 0;
     });
   }
 
@@ -50,42 +49,71 @@ class _HomePageState extends State<HomePage> {
 
   Widget _buildDrawer() {
     return Drawer(
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          DrawerHeader(
-            decoration: const BoxDecoration(
-              color: Color.fromARGB(255, 220, 218, 218),
+      child: Container(
+        color: Color.fromARGB(255, 220, 218, 218),
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: [
+            DrawerHeader(
+              decoration: const BoxDecoration(
+                color: Color.fromARGB(255, 220, 218, 218),
+              ),
+              child: Image.asset(
+                'assets/newlogo.png',
+                width: 500,
+                height: 500,
+              ),
             ),
-            child: Image.asset(
-              'assets/logo.JPG',
-              width: 100,
-              height: 100,
-            ),
-          ),
-          ListTile(
-            title: const Text('HOME'),
-            onTap: () {
-              setState(() {
-                _selectedIndex = 1;
-              });
-              Navigator.pop(context);
-            },
-          ),
-          ListTile(
-            title: const Text('VOICE RECORDER'),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const RecorderScreen()),
-              );
-            },
-          ),
-          ListTile(
-            title: const Text('SETTINGS'),
-            onTap: () {},
-          ),
-        ],
+            Divider(color: Colors.transparent),
+            Padding(
+              padding: EdgeInsets.only(top: 150),
+              child: Column(
+                children: [
+                  ListTile(
+                    contentPadding: EdgeInsets.only(left: 23),
+                    leading: Container(
+                      width: 24,
+                      height: 24,
+                      child: Image.asset('assets/homelogo.png'),
+                    ),
+                    title: const Text('HOME'),
+                    onTap: () {
+                      setState(() {
+                        _selectedIndex = 1;
+                      });
+                      Navigator.pop(context);
+                    },
+                  ),
+                  ListTile(
+                    leading: Container(
+                      width: 35,
+                      height: 35,
+                      child: Image.asset('assets/reclogo.png'),
+                    ),
+                    title: const Text('VOICE RECORDER'),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const RecorderScreen()),
+                      );
+                    },
+                  ),
+                  ListTile(
+                    contentPadding: EdgeInsets.only(left: 27),
+                    leading: Container(
+                      width: 24,
+                      height: 24,
+                      child: Image.asset('assets/settingslogo.png'),
+                    ),
+                    title: const Text('SETTINGS'),
+                    onTap: () {},
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
     );
   }

@@ -47,7 +47,7 @@ class _MainScreenState extends State<MainScreen> {
   void _onSongSelected(String filePath) {
     setState(() {
       _filePath = filePath;
-      _selectedIndex = 0; // Assuming NowPlaying is at index 0
+      _selectedIndex = 0; 
     });
   }
 
