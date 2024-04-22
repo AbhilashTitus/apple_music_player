@@ -1,6 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
-import 'package:apple_music_player/screen/allsongs.dart';
-import 'package:apple_music_player/screen/nowplaying.dart';
 import 'package:apple_music_player/screen/recorder/recordscreen.dart';
 import 'package:flutter/material.dart';
 
@@ -50,7 +47,7 @@ class _HomePageState extends State<HomePage> {
   Widget _buildDrawer() {
     return Drawer(
       child: Container(
-        color: Color.fromARGB(255, 220, 218, 218),
+        color: const Color.fromARGB(255, 220, 218, 218),
         child: ListView(
           padding: EdgeInsets.zero,
           children: [
@@ -70,8 +67,8 @@ class _HomePageState extends State<HomePage> {
               child: Column(
                 children: [
                   ListTile(
-                    contentPadding: EdgeInsets.only(left: 23),
-                    leading: Container(
+                    contentPadding: const EdgeInsets.only(left: 23),
+                    leading: SizedBox(
                       width: 24,
                       height: 24,
                       child: Image.asset('assets/homelogo.png'),
@@ -85,7 +82,7 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   ListTile(
-                    leading: Container(
+                    leading: SizedBox(
                       width: 35,
                       height: 35,
                       child: Image.asset('assets/reclogo.png'),
@@ -100,8 +97,8 @@ class _HomePageState extends State<HomePage> {
                     },
                   ),
                   ListTile(
-                    contentPadding: EdgeInsets.only(left: 27),
-                    leading: Container(
+                    contentPadding: const EdgeInsets.only(left: 27),
+                    leading: SizedBox(
                       width: 24,
                       height: 24,
                       child: Image.asset('assets/settingslogo.png'),
@@ -128,55 +125,52 @@ class _HomePageState extends State<HomePage> {
         children: [
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.black,
-              backgroundColor: Colors.white, 
-               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-               )
-            ),
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                )),
             onPressed: () {},
-             child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.favorite, color: Colors.red),
                 SizedBox(height: 20),
-                const Text('FAVORITES'),
+                Text('FAVORITES'),
               ],
             ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.black,
-              backgroundColor: Colors.white, 
-               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-               )
-            ),
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                )),
             onPressed: () {},
-             child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.playlist_play),
                 SizedBox(height: 20),
-                const Text('DRIVING PLAYLIST'),
+                Text('DRIVING PLAYLIST'),
               ],
             ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              foregroundColor: Colors.black,
-              backgroundColor: Colors.white, 
-               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-               )
-            ),
+                foregroundColor: Colors.black,
+                backgroundColor: Colors.white,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                )),
             onPressed: () {},
-             child: Column(
+            child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.playlist_play),
                 SizedBox(height: 20),
-                const Text('SLEEPING PLAYLIST'),
+                Text('SLEEPING PLAYLIST'),
               ],
             ),
           ),
@@ -184,10 +178,11 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        foregroundColor: Color.fromARGB(255, 255, 255, 255),
+        foregroundColor: const Color.fromARGB(255, 255, 255, 255),
         onPressed: () {},
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }
 }
+// ignore_for_file: library_private_types_in_public_api, unused_field, unused_element
