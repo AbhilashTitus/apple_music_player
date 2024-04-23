@@ -4,15 +4,15 @@ import 'package:apple_music_player/screen/home.dart';
 import 'package:apple_music_player/screen/nowplaying.dart';
 import 'package:apple_music_player/screen/search.dart';
 import 'package:apple_music_player/screen/splash.dart';
-import 'package:apple_music_player/song_model.dart';
+// import 'package:apple_music_player/song_model.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'SongModel.dart' as my;
-import 'package:hive_flutter/hive_flutter.dart';
+import 'MySongModel.dart' as my;
+// import 'package:hive_flutter/hive_flutter.dart';
 
 void main() async {
-  await Hive.initFlutter();
-  Hive.registerAdapter(SongModelAdapter());
+  // await Hive.initFlutter();
+  // Hive.registerAdapter(MySongModelAdapter());
   runApp(const MyApp());
 }
 
@@ -39,7 +39,7 @@ class MainScreen extends StatefulWidget {
 class _MainScreenState extends State<MainScreen> {
   int _selectedIndex = 0;
   String _filePath = '';
-  List<my.SongModel> _songs = [];
+  List<my.MySongModel> _songs = [];
 
   @override
   void initState() {
@@ -50,7 +50,7 @@ class _MainScreenState extends State<MainScreen> {
   void fetchSongs() async {
     final songs = await OnAudioQuery().querySongs();
     _songs = songs
-        .map((song) => my.SongModel(
+        .map((song) => my.MySongModel(
               title: song.title,
               artist: song.artist ?? '',
               data: song.data,

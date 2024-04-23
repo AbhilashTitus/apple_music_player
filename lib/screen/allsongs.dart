@@ -1,3 +1,4 @@
+import 'package:apple_music_player/MySongModel.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -13,7 +14,7 @@ class AllSongsPage extends StatefulWidget {
 }
 
 class _AllSongsPageState extends State<AllSongsPage> {
-  late Future<List<SongModel>> _songsFuture = Future.value([]);
+  late Future<List<MySongModel>> _songsFuture = Future.value([]);
   bool permissionGranted = false;
   bool _isRequestingPermission = false;
 

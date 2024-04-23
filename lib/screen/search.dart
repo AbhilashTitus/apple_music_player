@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../SongModel.dart';
+import '../MySongModel.dart';
 
 class SearchScreen extends StatefulWidget {
-  final List<SongModel> songs;
+  final List<MySongModel> songs;
   final Function(String) onSongSelected;
 
   const SearchScreen(
@@ -65,7 +65,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         subtitle: Text(
-                          song.artist ?? '',
+                          song.artist,
                           overflow: TextOverflow.ellipsis,
                         ),
                         trailing: IconButton(
