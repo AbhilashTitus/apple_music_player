@@ -48,19 +48,33 @@ class _SearchScreenState extends State<SearchScreen> {
           ),
           Expanded(
             child: query.isEmpty
-                ? const Center(
-                    child: Text(
-                        'PLEASE ENTER A SONG NAME.'))
+                ? const Center(child: Text('PLEASE ENTER A SONG NAME.'))
                 : ListView.builder(
                     itemCount: filteredSongs.length,
                     itemBuilder: (context, index) {
                       final song = filteredSongs[index];
                       return ListTile(
-                        title: Text(song.title),
-                        subtitle: Text(song.artist),
-                        onTap: () {
-                          widget.onSongSelected(song.data);
-                        },
+                        leading: IconButton(
+                          icon: Icon(Icons.music_note),
+                          onPressed: () {
+                            // Add your functionality here
+                          },
+                        ),
+                        title: Text(
+                          song.title,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          song.artist ?? '',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.more_vert),
+                          onPressed: () {
+                            // Add your functionality here
+                          },
+                        ),
+                        onTap: () => widget.onSongSelected(song.data),
                       );
                     },
                   ),

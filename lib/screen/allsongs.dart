@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'dart:typed_data';
 
 class AllSongsPage extends StatefulWidget {
   final Function(String) onSongSelected;
@@ -57,10 +58,44 @@ class _AllSongsPageState extends State<AllSongsPage> {
                       SongModel song = snapshot.data![index];
                       // print(song);
                       return ListTile(
-                        leading: Text('${index + 1}'),
-                        title: Text(song.title),
-                        subtitle: Text(song.artist ?? ''),
-                        trailing: const Icon(Icons.more_vert),
+                        leading: FutureBuilder<Uint8List?>(
+                          future: OnAudioQuery()
+                              .queryArtwork(song.id, ArtworkType.AUDIO),
+                          builder: (context, snapshot) {
+                            if (snapshot.connectionState ==
+                                ConnectionState.waiting) {
+                              return CircularProgressIndicator();
+                            } else if (snapshot.hasError ||
+                                snapshot.data == null) {
+                              return Container(
+                                width: 50,
+                                height: 50,
+                                child: Icon(Icons.music_note),
+                              );
+                            } else {
+                              return Container(
+                                width: 50,
+                                height: 50,
+                                child: Image.memory(snapshot.data!,
+                                    fit: BoxFit.cover),
+                              );
+                            }
+                          },
+                        ),
+                        title: Text(
+                          song.title,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        subtitle: Text(
+                          song.artist ?? '',
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        trailing: IconButton(
+                          icon: Icon(Icons.more_vert),
+                          onPressed: () {
+                            // Add your functionality here
+                          },
+                        ),
                         onTap: () => widget.onSongSelected(song.data),
                       );
                     },
