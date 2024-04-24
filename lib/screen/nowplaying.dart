@@ -1,5 +1,7 @@
 import 'package:apple_music_player/MySongModel.dart';
+import 'package:apple_music_player/constants.dart';
 import 'package:apple_music_player/controls/audio_controls.dart';
+import 'package:apple_music_player/screen/custom_card.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
@@ -102,69 +104,16 @@ class _NowPlayingState extends State<NowPlaying> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'N O W  P L A Y I N G',
+          nowPlayingHeading,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 17),
+          style: headingStyle,
         ),
         centerTitle: true,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Card(
-              color: Colors.grey[200],
-              elevation: 10.0,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(80.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Hero(
-                      tag: Text(
-                        '${widget.song?.title}-${widget.song?.data ?? ""}',
-                        style: const TextStyle(
-                          fontSize: 24,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      child: Container(
-                        height: 200,
-                        width: 200,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: widget.song?.albumArt != null
-                            ? Image.memory(widget.song!.albumArt!,
-                                fit: BoxFit.cover)
-                            : Image.asset('assets/newlogo.png'),
-                      ),
-                    ),
-                    const SizedBox(height: 1),
-                    Text(
-                      widget.song?.title ?? "No song selected",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                      style: const TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 1),
-                    Text(
-                      widget.song?.artist ?? "",
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 1,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          CustomCard(song: widget.song),
           AudioControls(
             audioPlayer: audioPlayer,
             isPlaying: isPlaying,

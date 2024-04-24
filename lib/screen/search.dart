@@ -1,3 +1,4 @@
+import 'package:apple_music_player/constants.dart';
 import 'package:flutter/material.dart';
 import '../MySongModel.dart';
 
@@ -24,9 +25,9 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'S E A R C H',
+         searchHeading,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 17),
+          style: headingStyle,
         ),
         centerTitle: true,
       ),

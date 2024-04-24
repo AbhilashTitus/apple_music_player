@@ -1,3 +1,4 @@
+import 'package:apple_music_player/constants.dart';
 import 'package:apple_music_player/screen/recorder/recordscreen.dart';
 import 'package:flutter/material.dart';
 
@@ -22,9 +23,10 @@ class _HomePageState extends State<HomePage> {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     if (_selectedIndex == 1) {
       return AppBar(
-        title: const Text(
-          'L I B R A R Y',
+       title: const Text(
+          libraryHeading,
           textAlign: TextAlign.center,
+          style: headingStyle,
         ),
         centerTitle: true,
         leading: Builder(

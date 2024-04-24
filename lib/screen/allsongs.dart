@@ -1,4 +1,5 @@
 import 'package:apple_music_player/MySongModel.dart';
+import 'package:apple_music_player/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -46,8 +47,8 @@ class _AllSongsPageState extends State<AllSongsPage> {
             child: Column(
               children: [
                 const Text(
-                  'A L L  S O N G S',
-                  style: TextStyle(fontSize: 17),
+                  allSongsHeading,
+                  style: headingStyle,
                 ),
                 const SizedBox(
                   height: 20,
