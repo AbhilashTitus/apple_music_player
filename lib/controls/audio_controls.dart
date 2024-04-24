@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'dart:math' as math;
 
 class AudioControls extends StatelessWidget {
   final AudioPlayer audioPlayer;
@@ -25,6 +26,12 @@ class AudioControls extends StatelessWidget {
     required this.toggleRepeat,
   });
 
+  String formatDuration(Duration d) {
+    final minutes = d.inMinutes.toString().padLeft(2, '0');
+    final seconds = (d.inSeconds % 60).toString().padLeft(2, '0');
+    return '$minutes:$seconds';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -45,16 +52,26 @@ class AudioControls extends StatelessWidget {
               onPressed: toggleRepeat as void Function()?,
               icon: Icon(
                 Icons.repeat,
-                color: isRepeat
-                    ? const Color.fromARGB(255, 0, 0, 0)
-                    : Colors.grey,
+                color:
+                    isRepeat ? const Color.fromARGB(255, 0, 0, 0) : Colors.grey,
               ),
             ),
           ],
         ),
         const SizedBox(height: 1),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(formatDuration(currentPosition)),
+              Text(formatDuration(totalDuration)),
+            ],
+          ),
+        ),
         Slider(
-          value: currentPosition.inSeconds.toDouble(),
+          value: math.min(currentPosition.inSeconds.toDouble(),
+              totalDuration.inSeconds.toDouble()),
           min: 0.0,
           max: totalDuration.inSeconds.toDouble(),
           onChanged: (value) {

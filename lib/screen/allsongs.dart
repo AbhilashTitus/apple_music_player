@@ -1,6 +1,7 @@
 import 'package:apple_music_player/MySongModel.dart';
 import 'package:apple_music_player/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:on_audio_query/on_audio_query.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:typed_data';
@@ -28,9 +29,35 @@ class _AllSongsPageState extends State<AllSongsPage> {
   void getPermissionStatus() async {
     PermissionStatus permission = await Permission.audio.request();
 
-    List<SongModel> tempList = await OnAudioQuery().querySongs();
-    // print(tempList.length);
+    if (permission.isGranted) {
+      final box = await Hive.openBox<MySongModel>('songs');
+      if (box.isEmpty) {
+        fetchSongs();
+      } else {
+        setState(() {
+          _songsFuture = Future.value(box.values.toList());
+        });
+      }
+    }
   }
+
+    void fetchSongs() async {
+    final songs = await OnAudioQuery().querySongs();
+    final box = await Hive.openBox<MySongModel>('songs');
+    for (var song in songs) {
+      Uint8List? albumArt = await OnAudioQuery().queryArtwork(song.id, ArtworkType.AUDIO);
+      box.add(MySongModel(
+        title: song.title,
+        artist: song.artist ?? '',
+        data: song.data,
+        albumArt: albumArt,
+      ));
+    }
+    setState(() {
+      _songsFuture = Future.value(box.values.toList());
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
