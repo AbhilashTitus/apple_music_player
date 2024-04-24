@@ -1,5 +1,6 @@
 import 'dart:async';
-import 'package:apple_music_player/main.dart';
+
+import 'package:apple_music_player/main_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

@@ -3,7 +3,7 @@ import '../MySongModel.dart';
 
 class SearchScreen extends StatefulWidget {
   final List<MySongModel> songs;
-  final Function(String) onSongSelected;
+  final Function(MySongModel) onSongSelected;
 
   const SearchScreen(
       {super.key, required this.songs, required this.onSongSelected});
@@ -74,7 +74,7 @@ class _SearchScreenState extends State<SearchScreen> {
                             // Add your functionality here
                           },
                         ),
-                        onTap: () => widget.onSongSelected(song.data),
+                        onTap: () => widget.onSongSelected(song),
                       );
                     },
                   ),

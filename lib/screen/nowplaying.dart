@@ -1,11 +1,12 @@
+import 'package:apple_music_player/MySongModel.dart';
 import 'package:apple_music_player/controls/audio_controls.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 
 class NowPlaying extends StatefulWidget {
-  final String filePath;
+  final MySongModel? song;
 
-  const NowPlaying({super.key, required this.filePath});
+  const NowPlaying({Key? key, this.song}) : super(key: key);
 
   @override
   _NowPlayingState createState() => _NowPlayingState();
@@ -17,14 +18,8 @@ class _NowPlayingState extends State<NowPlaying> {
   bool isShuffle = false;
   bool isRepeat = false;
 
-  String songTitle = 'Batman Theme';
-  String artist = 'Hans Zimmer';
-  String albumArt = 'assets/newlogo.png';
-
   Duration currentPosition = Duration.zero;
   Duration totalDuration = Duration.zero;
-
-  get index => null;
 
   @override
   void initState() {
@@ -36,13 +31,17 @@ class _NowPlayingState extends State<NowPlaying> {
   @override
   void didUpdateWidget(covariant NowPlaying oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.filePath != widget.filePath) {
+    if (oldWidget.song?.data != widget.song?.data && widget.song != null) {
       _initAudio();
     }
   }
 
   Future<void> _initAudio() async {
-    String audioFile = widget.filePath;
+    if (widget.song == null) {
+      return;
+    }
+
+    String audioFile = widget.song!.data;
     try {
       if (isPlaying) {
         await audioPlayer.stop();
@@ -73,32 +72,29 @@ class _NowPlayingState extends State<NowPlaying> {
     }
   }
 
-  void playAudio() {
-    if (audioPlayer.playerState.playing) {
-      audioPlayer.pause();
+  void playAudio() async {
+    if (isPlaying) {
+      await audioPlayer.pause();
     } else {
-      audioPlayer.play();
+      await audioPlayer.play();
     }
+    setState(() {
+      isPlaying = !isPlaying;
+    });
   }
 
   void toggleShuffle() {
     setState(() {
       isShuffle = !isShuffle;
-      audioPlayer.setShuffleModeEnabled(isShuffle);
     });
+    audioPlayer.setShuffleModeEnabled(isShuffle);
   }
 
   void toggleRepeat() {
     setState(() {
       isRepeat = !isRepeat;
-      audioPlayer.setLoopMode(isRepeat ? LoopMode.one : LoopMode.off);
     });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    audioPlayer.dispose();
+    audioPlayer.setLoopMode(isRepeat ? LoopMode.one : LoopMode.off);
   }
 
   @override
@@ -130,7 +126,7 @@ class _NowPlayingState extends State<NowPlaying> {
                   children: [
                     Hero(
                       tag: Text(
-                        '$songTitle-$index',
+                        '${widget.song?.title}-${widget.song?.data ?? ""}',
                         style: const TextStyle(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -142,25 +138,34 @@ class _NowPlayingState extends State<NowPlaying> {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
                         ),
-                        child: Image.asset(albumArt),
+                        child: widget.song?.albumArt != null
+                            ? Image.memory(widget.song!.albumArt!,
+                                fit: BoxFit.cover)
+                            : Image.asset('assets/newlogo.png'),
                       ),
                     ),
                     const SizedBox(height: 1),
                     Text(
-                      songTitle,
+                      widget.song?.title ?? "No song selected",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
                       style: const TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     const SizedBox(height: 1),
-                    Text(artist),
+                    Text(
+                      widget.song?.artist ?? "",
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
                   ],
                 ),
               ),
             ),
           ),
-          AudioControls( // Use the new widget here
+          AudioControls(
             audioPlayer: audioPlayer,
             isPlaying: isPlaying,
             isShuffle: isShuffle,

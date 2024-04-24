@@ -5,7 +5,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:typed_data';
 
 class AllSongsPage extends StatefulWidget {
-  final Function(String) onSongSelected;
+  final Function(MySongModel) onSongSelected;
 
   const AllSongsPage({super.key, required this.onSongSelected});
 
@@ -97,7 +97,20 @@ class _AllSongsPageState extends State<AllSongsPage> {
                             // Add your functionality here
                           },
                         ),
-                        onTap: () => widget.onSongSelected(song.data),
+                        onTap: () {
+                          Uint8List? albumArt;
+                          OnAudioQuery()
+                              .queryArtwork(song.id, ArtworkType.AUDIO)
+                              .then((value) {
+                            albumArt = value;
+                          });
+                          widget.onSongSelected(MySongModel(
+                            title: song.title,
+                            artist: song.artist ?? '',
+                            data: song.data,
+                            albumArt: albumArt,
+                          ));
+                        },
                       );
                     },
                   ),
