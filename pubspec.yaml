@@ -28,6 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
+  audiotags: ^1.4.0
   cupertino_icons: ^1.0.6
   file_picker: ^8.0.0+1
   flutter:

@@ -7,7 +7,7 @@ class SearchScreen extends StatefulWidget {
   final Function(MySongModel) onSongSelected;
 
   const SearchScreen(
-      {super.key, required this.songs, required this.onSongSelected});
+      {Key? key, required this.songs, required this.onSongSelected}) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -25,7 +25,7 @@ class _SearchScreenState extends State<SearchScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-         searchHeading,
+          searchHeading,
           textAlign: TextAlign.center,
           style: headingStyle,
         ),
@@ -48,19 +48,26 @@ class _SearchScreenState extends State<SearchScreen> {
             ),
           ),
           Expanded(
-            child: query.isEmpty
-                ? const Center(child: Text('PLEASE ENTER A SONG NAME.'))
+            child: filteredSongs.isEmpty
+                ? const Center(child: Text('No songs found.'))
                 : ListView.builder(
                     itemCount: filteredSongs.length,
                     itemBuilder: (context, index) {
                       final song = filteredSongs[index];
                       return ListTile(
-                        leading: IconButton(
-                          icon: Icon(Icons.music_note),
-                          onPressed: () {
-                            // Add your functionality here
-                          },
-                        ),
+                        leading: song.albumArt != null
+                            ? Image.memory(
+                                song.albumArt!,
+                                width: 50,
+                                height: 50,
+                                fit: BoxFit.cover,
+                              )
+                            : IconButton(
+                                icon: const Icon(Icons.music_note),
+                                onPressed: () {
+                                  // Add your functionality here
+                                },
+                              ),
                         title: Text(
                           song.title,
                           overflow: TextOverflow.ellipsis,
@@ -70,12 +77,14 @@ class _SearchScreenState extends State<SearchScreen> {
                           overflow: TextOverflow.ellipsis,
                         ),
                         trailing: IconButton(
-                          icon: Icon(Icons.more_vert),
+                          icon: const Icon(Icons.more_vert),
                           onPressed: () {
                             // Add your functionality here
                           },
                         ),
-                        onTap: () => widget.onSongSelected(song),
+                        onTap: () {
+                          widget.onSongSelected(song);
+                        },
                       );
                     },
                   ),
@@ -85,4 +94,3 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-// ignore_for_file: library_private_types_in_public_api

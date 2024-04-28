@@ -8,32 +8,44 @@ import 'package:on_audio_query/on_audio_query.dart';
 import 'MySongModel.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
-  _MainScreenState createState() => _MainScreenState();
+  State<MainScreen> createState() => _MainScreenState();
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   MySongModel? _selectedSong;
   List<MySongModel> _songs = [];
 
-@override
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.hidden) {
+      fetchSongs();
+    }
+  }
+
+  @override
   void initState() {
     super.initState();
     fetchSongs();
   }
 
   void fetchSongs() async {
-    final songs = await OnAudioQuery().querySongs();
-    _songs = songs
-        .map((song) => MySongModel(
-              title: song.title,
-              artist: song.artist ?? '',
-              data: song.data,
-            ))
-        .toList();
+    try {
+      final songs = await OnAudioQuery().querySongs();
+      _songs = songs.map((song) {
+        // print(song);
+        return MySongModel(
+          title: song.title,
+          artist: song.artist ?? '',
+          data: song.data,
+        );
+      }).toList();
+    } catch (e) {
+      print("Error $e");
+    }
   }
 
   void _onItemTapped(int index) {
@@ -50,6 +62,9 @@ class _MainScreenState extends State<MainScreen> {
     });
   }
 
+  
+
+ 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,7 +75,7 @@ class _MainScreenState extends State<MainScreen> {
               ? NowPlaying(
                   song: _selectedSong!,
                 )
-              : Container(), // Show an empty container if no song is selected
+              : Container(), 
           const HomePage(),
           AllSongsPage(onSongSelected: _onSongSelected),
           SearchScreen(songs: _songs, onSongSelected: _onSongSelected),

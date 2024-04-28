@@ -4,7 +4,7 @@ import 'package:apple_music_player/MySongModel.dart';
 class CustomCard extends StatelessWidget {
   final MySongModel? song;
 
-  const CustomCard({Key? key, this.song}) : super(key: key);
+  const CustomCard({super.key, this.song});
 
   @override
   Widget build(BuildContext context) {

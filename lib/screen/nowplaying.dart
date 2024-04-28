@@ -8,10 +8,10 @@ import 'package:just_audio/just_audio.dart';
 class NowPlaying extends StatefulWidget {
   final MySongModel? song;
 
-  const NowPlaying({Key? key, this.song}) : super(key: key);
+  const NowPlaying({super.key, this.song});
 
   @override
-  _NowPlayingState createState() => _NowPlayingState();
+  State<NowPlaying> createState() => _NowPlayingState();
 }
 
 class _NowPlayingState extends State<NowPlaying> {

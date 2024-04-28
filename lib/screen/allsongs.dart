@@ -1,5 +1,5 @@
-import 'package:apple_music_player/MySongModel.dart';
 import 'package:apple_music_player/constants.dart';
+import 'package:apple_music_player/MySongModel.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -41,11 +41,12 @@ class _AllSongsPageState extends State<AllSongsPage> {
     }
   }
 
-    void fetchSongs() async {
+  void fetchSongs() async {
     final songs = await OnAudioQuery().querySongs();
     final box = await Hive.openBox<MySongModel>('songs');
     for (var song in songs) {
-      Uint8List? albumArt = await OnAudioQuery().queryArtwork(song.id, ArtworkType.AUDIO);
+      Uint8List? albumArt =
+          await OnAudioQuery().queryArtwork(song.id, ArtworkType.AUDIO);
       box.add(MySongModel(
         title: song.title,
         artist: song.artist ?? '',
@@ -58,97 +59,103 @@ class _AllSongsPageState extends State<AllSongsPage> {
     });
   }
 
-
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<SongModel>>(
-      future: OnAudioQuery().querySongs(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else {
-          // print(snapshot.data);
-          return SafeArea(
-            child: Column(
-              children: [
-                const Text(
-                  allSongsHeading,
-                  style: headingStyle,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: snapshot.data?.length ?? 0,
-                    itemBuilder: (context, index) {
-                      SongModel song = snapshot.data![index];
-                      // print(song);
-                      return ListTile(
-                        leading: FutureBuilder<Uint8List?>(
-                          future: OnAudioQuery()
-                              .queryArtwork(song.id, ArtworkType.AUDIO),
-                          builder: (context, snapshot) {
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return CircularProgressIndicator();
-                            } else if (snapshot.hasError ||
-                                snapshot.data == null) {
-                              return Container(
-                                width: 50,
-                                height: 50,
-                                child: Icon(Icons.music_note),
-                              );
-                            } else {
-                              return Container(
-                                width: 50,
-                                height: 50,
-                                child: Image.memory(snapshot.data!,
-                                    fit: BoxFit.cover),
-                              );
-                            }
-                          },
-                        ),
-                        title: Text(
-                          song.title,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        subtitle: Text(
-                          song.artist ?? '',
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                        trailing: IconButton(
-                          icon: Icon(Icons.more_vert),
-                          onPressed: () {
-                            // Add your functionality here
-                          },
-                        ),
-                        onTap: () {
-                          Uint8List? albumArt;
-                          OnAudioQuery()
-                              .queryArtwork(song.id, ArtworkType.AUDIO)
-                              .then((value) {
-                            albumArt = value;
-                          });
-                          widget.onSongSelected(MySongModel(
-                            title: song.title,
-                            artist: song.artist ?? '',
-                            data: song.data,
-                            albumArt: albumArt,
-                          ));
-                        },
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          allSongsHeading,
+          style: headingStyle,
+        ),
+        centerTitle: true,
+      ),
+      body: FutureBuilder<List<SongModel>>(
+        future: OnAudioQuery().querySongs(
+          sortType: null,
+          orderType: OrderType.ASC_OR_SMALLER,
+          uriType: UriType.EXTERNAL,
+          ignoreCase: true,
+        ),
+        builder: (context, item) {
+          if (item.data == null) {
+            return const Center(
+              child: CircularProgressIndicator(
+                strokeWidth: 2,
+              ),
+            );
+          }
+
+          if (item.data!.isEmpty) {
+            return Center(
+              child: Text(
+                'No songs found',
+              ),
+            );
+          }
+          return ListView.builder(
+            itemCount: item.data?.length ?? 0,
+            itemBuilder: (context, index) {
+              SongModel song = item.data![index];
+              // print(song);
+              return ListTile(
+                leading: FutureBuilder<Uint8List?>(
+                  future:
+                      OnAudioQuery().queryArtwork(song.id, ArtworkType.AUDIO),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return CircularProgressIndicator();
+                    } else if (snapshot.hasError || snapshot.data == null) {
+                      return Container(
+                        width: 50,
+                        height: 50,
+                        child: Icon(Icons.music_note),
                       );
-                    },
-                  ),
+                    } else {
+                      return Container(
+                        width: 50,
+                        height: 50,
+                        child: Image.memory(snapshot.data!, fit: BoxFit.cover),
+                      );
+                    }
+                  },
                 ),
-              ],
-            ),
+                title: Text(
+                  song.title,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                subtitle: Text(
+                  song.artist ?? '',
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: IconButton(
+                  icon: Icon(Icons.more_vert),
+                  onPressed: () {
+                    // Add your functionality here
+                  },
+                ),
+                onTap: () {
+                  Uint8List? albumArt;
+                  OnAudioQuery()
+                      .queryArtwork(song.id, ArtworkType.AUDIO)
+                      .then((value) {
+                    albumArt = value;
+                  });
+                  widget.onSongSelected(MySongModel(
+                    title: song.title,
+                    artist: song.artist ?? '',
+                    data: song.data,
+                    albumArt: albumArt,
+                  ));
+                },
+              );
+            },
           );
-        }
-      },
+        },
+      ),
     );
   }
 }
 // ignore_for_file: library_private_types_in_public_api, prefer_final_fields, unused_field, unused_local_variable
+
+
+

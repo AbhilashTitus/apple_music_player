@@ -1,14 +1,7 @@
 import 'dart:async';
-
+import 'package:permission_handler/permission_handler.dart';
 import 'package:apple_music_player/main_screen.dart';
 import 'package:flutter/material.dart';
-
-void main() {
-  runApp(const MaterialApp(
-    title: '',
-    home: SplashScreen(),
-  ));
-}
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -21,11 +14,32 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    Timer(const Duration(seconds: 3), () {
+    checkPermissionsAndNavigate();
+  }
+
+  Future<void> checkPermissionsAndNavigate() async {
+    PermissionStatus permissionStatus;
+    PermissionStatus result;
+    final status = await Permission.audio.status;
+
+    permissionStatus = await Permission.audio.request();
+    debugPrint(status.toString());
+    if (permissionStatus.isGranted) {
+      await Future.delayed(const Duration(seconds: 3));
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const MainScreen()),
       );
-    });
+    } else {
+      result = await Permission.audio.request();
+
+      if (result.isGranted) {
+        await Future.delayed(const Duration(seconds: 3));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (BuildContext context) => const MainScreen()));
+      } else if (result.isPermanentlyDenied) {
+        openAppSettings();
+      }
+    }
   }
 
   @override

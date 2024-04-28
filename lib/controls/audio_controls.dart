@@ -13,8 +13,8 @@ class AudioControls extends StatelessWidget {
   final Function toggleShuffle;
   final Function toggleRepeat;
 
-  AudioControls({
-    Key? key,
+  const AudioControls({super.key, 
+    
     required this.audioPlayer,
     required this.isPlaying,
     required this.isShuffle,
