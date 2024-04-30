@@ -5,7 +5,7 @@ import 'package:apple_music_player/screen/nowplaying.dart';
 import 'package:apple_music_player/screen/search.dart';
 import 'package:flutter/material.dart';
 import 'package:on_audio_query/on_audio_query.dart';
-import 'MySongModel.dart';
+import '../model/MySongModel.dart';
 
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});

@@ -1,6 +1,7 @@
-import 'package:apple_music_player/constants.dart';
-import 'package:apple_music_player/screen/recorder/recordscreen.dart';
+import 'package:apple_music_player/controls/drawer.dart';
+import 'package:apple_music_player/screen/constants.dart';
 import 'package:flutter/material.dart';
+import 'package:apple_music_player/screen/favorites_page.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,6 +14,12 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
   String _filePath = '';
 
+  void _onHomeTap(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+
   void _onSongSelected(String filePath) {
     setState(() {
       _filePath = filePath;
@@ -23,7 +30,7 @@ class _HomePageState extends State<HomePage> {
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     if (_selectedIndex == 1) {
       return AppBar(
-       title: const Text(
+        title: const Text(
           libraryHeading,
           textAlign: TextAlign.center,
           style: headingStyle,
@@ -46,82 +53,11 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  Widget _buildDrawer() {
-    return Drawer(
-      child: Container(
-        color: const Color.fromARGB(255, 220, 218, 218),
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
-            DrawerHeader(
-              decoration: const BoxDecoration(
-                color: Color.fromARGB(255, 220, 218, 218),
-              ),
-              child: Image.asset(
-                'assets/newlogo.png',
-                width: 500,
-                height: 500,
-              ),
-            ),
-            const Divider(color: Colors.transparent),
-            Padding(
-              padding: const EdgeInsets.only(top: 150),
-              child: Column(
-                children: [
-                  ListTile(
-                    contentPadding: const EdgeInsets.only(left: 23),
-                    leading: SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: Image.asset('assets/homelogo.png'),
-                    ),
-                    title: const Text('HOME'),
-                    onTap: () {
-                      setState(() {
-                        _selectedIndex = 1;
-                      });
-                      Navigator.pop(context);
-                    },
-                  ),
-                  ListTile(
-                    leading: SizedBox(
-                      width: 35,
-                      height: 35,
-                      child: Image.asset('assets/reclogo.png'),
-                    ),
-                    title: const Text('VOICE RECORDER'),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const RecorderScreen()),
-                      );
-                    },
-                  ),
-                  ListTile(
-                    contentPadding: const EdgeInsets.only(left: 27),
-                    leading: SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: Image.asset('assets/settingslogo.png'),
-                    ),
-                    title: const Text('SETTINGS'),
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: _buildAppBar(context),
-      drawer: _buildDrawer(),
+      drawer: AppDrawer(onHomeTap: _onHomeTap),
       body: GridView.count(
         crossAxisCount: 2,
         children: [
@@ -132,7 +68,14 @@ class _HomePageState extends State<HomePage> {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(10),
                 )),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FavoritesPage(),
+                ),
+              );
+            },
             child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

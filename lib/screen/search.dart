@@ -1,6 +1,6 @@
-import 'package:apple_music_player/constants.dart';
+import 'package:apple_music_player/screen/constants.dart';
 import 'package:flutter/material.dart';
-import '../MySongModel.dart';
+import '../model/MySongModel.dart';
 
 class SearchScreen extends StatefulWidget {
   final List<MySongModel> songs;

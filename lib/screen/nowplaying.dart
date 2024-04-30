@@ -1,5 +1,5 @@
-import 'package:apple_music_player/MySongModel.dart';
-import 'package:apple_music_player/constants.dart';
+import 'package:apple_music_player/model/MySongModel.dart';
+import 'package:apple_music_player/screen/constants.dart';
 import 'package:apple_music_player/controls/audio_controls.dart';
 import 'package:apple_music_player/screen/custom_card.dart';
 import 'package:flutter/material.dart';

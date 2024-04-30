@@ -1,5 +1,5 @@
-import 'package:apple_music_player/constants.dart';
-import 'package:apple_music_player/MySongModel.dart';
+import 'package:apple_music_player/screen/constants.dart';
+import 'package:apple_music_player/model/MySongModel.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:on_audio_query/on_audio_query.dart';
@@ -127,10 +127,16 @@ class _AllSongsPageState extends State<AllSongsPage> {
                   song.artist ?? '',
                   overflow: TextOverflow.ellipsis,
                 ),
-                trailing: IconButton(
+                trailing: PopupMenuButton<int>(
                   icon: Icon(Icons.more_vert),
-                  onPressed: () {
-                    // Add your functionality here
+                  itemBuilder: (context) => [
+                    PopupMenuItem(
+                      value: 1,
+                      child: Text("Add to Favorites"),
+                    ),
+                  ],
+                  onSelected: (value) {
+                   
                   },
                 ),
                 onTap: () {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:apple_music_player/MySongModel.dart';
+import 'package:apple_music_player/model/MySongModel.dart';
 
 class CustomCard extends StatelessWidget {
   final MySongModel? song;

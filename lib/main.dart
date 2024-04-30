@@ -1,4 +1,4 @@
-
+import 'package:apple_music_player/model/MySongModel.dart';
 import 'package:apple_music_player/screen/splash.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -6,7 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
-  // Hive.registerAdapter(MySongModelAdapter());
+  Hive.registerAdapter(MySongModelAdapter());
   runApp(const MyApp());
 }
 

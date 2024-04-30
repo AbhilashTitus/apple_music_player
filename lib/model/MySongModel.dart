@@ -1,7 +1,7 @@
 import 'dart:typed_data';
 import 'package:hive/hive.dart';
 
- part 'MySongModel.g.dart';
+part 'MySongModel.g.dart';
 
 @HiveType(typeId: 0)
 class MySongModel extends HiveObject {
@@ -23,4 +23,6 @@ class MySongModel extends HiveObject {
     required this.data,
     this.albumArt,
   });
+
+  int get id => key as int;
 }

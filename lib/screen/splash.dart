@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:apple_music_player/main_screen.dart';
+import 'package:apple_music_player/screen/main_screen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
