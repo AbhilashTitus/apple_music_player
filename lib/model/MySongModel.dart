@@ -24,5 +24,4 @@ class MySongModel extends HiveObject {
     this.albumArt,
   });
 
-  int get id => key as int;
 }

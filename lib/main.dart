@@ -7,6 +7,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   Hive.registerAdapter(MySongModelAdapter());
+  await Hive.openBox<MySongModel>('songs');
+  await Hive.openBox<MySongModel>('favorites');
+
   runApp(const MyApp());
 }
 

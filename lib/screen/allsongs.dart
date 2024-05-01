@@ -9,16 +9,15 @@ import 'dart:typed_data';
 class AllSongsPage extends StatefulWidget {
   final Function(MySongModel) onSongSelected;
 
-  const AllSongsPage({super.key, required this.onSongSelected});
+  const AllSongsPage({Key? key, required this.onSongSelected})
+      : super(key: key);
 
   @override
   _AllSongsPageState createState() => _AllSongsPageState();
 }
 
 class _AllSongsPageState extends State<AllSongsPage> {
-  late Future<List<MySongModel>> _songsFuture = Future.value([]);
   bool permissionGranted = false;
-  bool _isRequestingPermission = false;
 
   @override
   void initState() {
@@ -30,20 +29,18 @@ class _AllSongsPageState extends State<AllSongsPage> {
     PermissionStatus permission = await Permission.audio.request();
 
     if (permission.isGranted) {
-      final box = await Hive.openBox<MySongModel>('songs');
+      final box = Hive.box<MySongModel>('songs');
       if (box.isEmpty) {
         fetchSongs();
       } else {
-        setState(() {
-          _songsFuture = Future.value(box.values.toList());
-        });
+        setState(() {});
       }
     }
   }
 
   void fetchSongs() async {
     final songs = await OnAudioQuery().querySongs();
-    final box = await Hive.openBox<MySongModel>('songs');
+    final box = Hive.box<MySongModel>('songs');
     for (var song in songs) {
       Uint8List? albumArt =
           await OnAudioQuery().queryArtwork(song.id, ArtworkType.AUDIO);
@@ -54,9 +51,7 @@ class _AllSongsPageState extends State<AllSongsPage> {
         albumArt: albumArt,
       ));
     }
-    setState(() {
-      _songsFuture = Future.value(box.values.toList());
-    });
+    setState(() {});
   }
 
   @override
@@ -69,13 +64,8 @@ class _AllSongsPageState extends State<AllSongsPage> {
         ),
         centerTitle: true,
       ),
-      body: FutureBuilder<List<SongModel>>(
-        future: OnAudioQuery().querySongs(
-          sortType: null,
-          orderType: OrderType.ASC_OR_SMALLER,
-          uriType: UriType.EXTERNAL,
-          ignoreCase: true,
-        ),
+      body: FutureBuilder<Box<MySongModel>>(
+        future: Hive.openBox<MySongModel>('songs'),
         builder: (context, item) {
           if (item.data == null) {
             return const Center(
@@ -84,74 +74,48 @@ class _AllSongsPageState extends State<AllSongsPage> {
               ),
             );
           }
-
-          if (item.data!.isEmpty) {
-            return Center(
-              child: Text(
-                'No songs found',
-              ),
-            );
-          }
           return ListView.builder(
             itemCount: item.data?.length ?? 0,
             itemBuilder: (context, index) {
-              SongModel song = item.data![index];
-              // print(song);
+              MySongModel song = item.data!.getAt(index)!;
               return ListTile(
-                leading: FutureBuilder<Uint8List?>(
-                  future:
-                      OnAudioQuery().queryArtwork(song.id, ArtworkType.AUDIO),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return CircularProgressIndicator();
-                    } else if (snapshot.hasError || snapshot.data == null) {
-                      return Container(
-                        width: 50,
-                        height: 50,
-                        child: Icon(Icons.music_note),
-                      );
-                    } else {
-                      return Container(
-                        width: 50,
-                        height: 50,
-                        child: Image.memory(snapshot.data!, fit: BoxFit.cover),
-                      );
-                    }
-                  },
+                leading: SizedBox(
+                  width: 50,
+                  height: 50,
+                  child: song.albumArt != null
+                      ? Image.memory(song.albumArt!, fit: BoxFit.cover)
+                      : const Icon(Icons.music_note),
                 ),
                 title: Text(
                   song.title,
                   overflow: TextOverflow.ellipsis,
                 ),
                 subtitle: Text(
-                  song.artist ?? '',
+                  song.artist,
                   overflow: TextOverflow.ellipsis,
                 ),
                 trailing: PopupMenuButton<int>(
-                  icon: Icon(Icons.more_vert),
+                  icon: const Icon(Icons.more_vert),
                   itemBuilder: (context) => [
-                    PopupMenuItem(
+                    const PopupMenuItem(
                       value: 1,
                       child: Text("Add to Favorites"),
                     ),
                   ],
                   onSelected: (value) {
-                   
+                    if (value == 1) {
+                      Hive.box<MySongModel>('favorites').add(MySongModel(
+                        title: song.title,
+                        artist: song.artist,
+                        data: song.data,
+                        albumArt: song.albumArt,
+                      ));
+                      print('Added song to favorites');
+                    }
                   },
                 ),
                 onTap: () {
-                  Uint8List? albumArt;
-                  OnAudioQuery()
-                      .queryArtwork(song.id, ArtworkType.AUDIO)
-                      .then((value) {
-                    albumArt = value;
-                  });
-                  widget.onSongSelected(MySongModel(
-                    title: song.title,
-                    artist: song.artist ?? '',
-                    data: song.data,
-                    albumArt: albumArt,
-                  ));
+                  widget.onSongSelected(song);
                 },
               );
             },
@@ -161,7 +125,3 @@ class _AllSongsPageState extends State<AllSongsPage> {
     );
   }
 }
-// ignore_for_file: library_private_types_in_public_api, prefer_final_fields, unused_field, unused_local_variable
-
-
-
