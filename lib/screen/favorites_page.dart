@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class FavoritesPage extends StatefulWidget {
-  const FavoritesPage({Key? key}) : super(key: key);
+  const FavoritesPage({super.key});
 
   @override
   _FavoritesPageState createState() => _FavoritesPageState();
@@ -53,10 +53,11 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 return ListTile(
                   title: Text(song.title),
                   subtitle: Text(song.artist),
-                  // Add more details about the song or controls to play the song
                 );
               },
             ),
     );
   }
 }
+// ignore_for_file: library_private_types_in_public_api
+

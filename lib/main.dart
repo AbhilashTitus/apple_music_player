@@ -9,6 +9,7 @@ void main() async {
   Hive.registerAdapter(MySongModelAdapter());
   await Hive.openBox<MySongModel>('songs');
   await Hive.openBox<MySongModel>('favorites');
+  await Hive.openBox<List>('playlists');
 
   runApp(const MyApp());
 }

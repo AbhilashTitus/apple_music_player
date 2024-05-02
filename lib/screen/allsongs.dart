@@ -9,8 +9,7 @@ import 'dart:typed_data';
 class AllSongsPage extends StatefulWidget {
   final Function(MySongModel) onSongSelected;
 
-  const AllSongsPage({Key? key, required this.onSongSelected})
-      : super(key: key);
+  const AllSongsPage({super.key, required this.onSongSelected});
 
   @override
   _AllSongsPageState createState() => _AllSongsPageState();
@@ -125,3 +124,4 @@ class _AllSongsPageState extends State<AllSongsPage> {
     );
   }
 }
+// ignore_for_file: library_private_types_in_public_api

@@ -4,7 +4,7 @@ import 'package:apple_music_player/screen/recorder/recordscreen.dart';
 class AppDrawer extends StatelessWidget {
   final Function(int) onHomeTap;
 
-  AppDrawer({required this.onHomeTap});
+  const AppDrawer({super.key, required this.onHomeTap});
 
   @override
   Widget build(BuildContext context) {
