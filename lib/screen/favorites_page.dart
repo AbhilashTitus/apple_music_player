@@ -5,8 +5,7 @@ import 'package:hive/hive.dart';
 class FavoritesPage extends StatefulWidget {
   final ValueNotifier<MySongModel?> selectedSongNotifier;
 
-  const FavoritesPage({Key? key, required this.selectedSongNotifier})
-      : super(key: key);
+  const FavoritesPage({super.key, required this.selectedSongNotifier});
 
   @override
   _FavoritesPageState createState() => _FavoritesPageState();

@@ -9,8 +9,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 class HomePage extends StatefulWidget {
   final ValueNotifier<MySongModel?> selectedSongNotifier;
 
-  const HomePage({Key? key, required this.selectedSongNotifier})
-      : super(key: key);
+  const HomePage({super.key, required this.selectedSongNotifier});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -29,32 +28,6 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       _selectedIndex = index;
     });
-  }
-
-  PreferredSizeWidget _buildAppBar(BuildContext context) {
-    if (_selectedIndex == 1) {
-      return AppBar(
-        title: const Text(
-          libraryHeading,
-          textAlign: TextAlign.center,
-          style: headingStyle,
-        ),
-        centerTitle: true,
-        leading: Builder(
-          builder: (context) => IconButton(
-            icon: const Icon(Icons.menu),
-            onPressed: () {
-              Scaffold.of(context).openDrawer();
-            },
-          ),
-        ),
-      );
-    } else {
-      return const PreferredSize(
-        preferredSize: Size.zero,
-        child: SizedBox.shrink(),
-      );
-    }
   }
 
   void _addPlaylist() {
@@ -101,7 +74,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: _buildAppBar(context),
+      appBar: CustomAppBar(
+        selectedIndex: _selectedIndex,
+        title: libraryHeading,
+        style: headingStyle,
+      ),
       drawer: AppDrawer(onHomeTap: _onHomeTap),
       body: ValueListenableBuilder(
         valueListenable: Hive.box<List>('playlists').listenable(),
@@ -109,14 +86,7 @@ class _HomePageState extends State<HomePage> {
           return GridView.count(
             crossAxisCount: 2,
             children: [
-              ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black,
-                  backgroundColor: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
+              CustomElevatedButton(
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -126,24 +96,13 @@ class _HomePageState extends State<HomePage> {
                     ),
                   );
                 },
-                child: const Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(Icons.favorite, color: Colors.red),
-                    SizedBox(height: 20),
-                    Text('FAVORITES'),
-                  ],
-                ),
+                onLongPress: () {},
+                icon: Icons.favorite,
+                iconColor: Colors.red,
+                text: 'FAVORITES',
               ),
               ...box.keys.map((playlist) {
-                return ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.black,
-                    backgroundColor: Colors.white,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
+                return CustomElevatedButton(
                   onPressed: () {
                     Navigator.push(
                       context,
@@ -156,54 +115,23 @@ class _HomePageState extends State<HomePage> {
                     );
                   },
                   onLongPress: () {
-                    showDialog(
+                    showCustomDialog(
                       context: context,
-                      builder: (context) {
-                        return Theme(
-                          data: ThemeData(
-                            dialogBackgroundColor: Colors.white,
-                            dialogTheme: DialogTheme(
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                          ),
-                          child: AlertDialog(
-                            title: const Text('Delete Playlist'),
-                            content: const Text(
-                                'Are you sure you want to delete this playlist?'),
-                            actions: [
-                              TextButton(
-                                child: Text('Cancel',
-                                    style: TextStyle(color: Colors.black)),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: Text('OK',
-                                    style: TextStyle(color: Colors.black)),
-                                onPressed: () {
-                                  box.delete(playlist);
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          ),
-                        );
+                      title: 'Delete Playlist',
+                      content: 'Are you sure you want to delete this playlist?',
+                      onCancel: () {
+                        Navigator.of(context).pop();
+                      },
+                      onOk: () {
+                        box.delete(playlist);
+                        Navigator.of(context).pop();
                       },
                     );
                   },
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.playlist_play),
-                      const SizedBox(height: 20),
-                      Text(playlist),
-                    ],
-                  ),
+                  icon: Icons.playlist_play,
+                  text: playlist,
                 );
-              }).toList(),
+              }),
             ],
           );
         },

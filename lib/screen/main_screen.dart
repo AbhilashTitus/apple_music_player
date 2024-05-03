@@ -1,3 +1,4 @@
+import 'package:apple_music_player/controls/NowPlayingDummy.dart';
 import 'package:apple_music_player/controls/bottom_navigation_bar.dart';
 import 'package:apple_music_player/screen/allsongs.dart';
 import 'package:apple_music_player/screen/home.dart';
@@ -79,7 +80,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               ? NowPlaying(
                   song: _selectedSong!,
                 )
-              : Container(),
+              : const NowPlayingDummy(),
           HomePage(selectedSongNotifier: selectedSongNotifier),
           AllSongsPage(selectedSongNotifier: selectedSongNotifier),
           SearchScreen(songs: _songs, selectedSongNotifier: selectedSongNotifier),

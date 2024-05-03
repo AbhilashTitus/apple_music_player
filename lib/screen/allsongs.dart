@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:apple_music_player/screen/constants.dart';
 import 'package:apple_music_player/model/MySongModel.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +11,7 @@ import 'dart:typed_data';
 class AllSongsPage extends StatefulWidget {
   final ValueNotifier<MySongModel?> selectedSongNotifier;
 
-  const AllSongsPage({Key? key, required this.selectedSongNotifier}) : super(key: key);
+  const AllSongsPage({super.key, required this.selectedSongNotifier});
 
   @override
   _AllSongsPageState createState() => _AllSongsPageState();

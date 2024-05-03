@@ -67,7 +67,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
           child: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return AlertDialog(
-                title: Center(child: const Text('A D D  S O N G S')),
+                title: const Center(child: Text('A D D  S O N G S')),
                 content: SizedBox(
                   width: double.maxFinite,
                   child: ListView.builder(
@@ -100,13 +100,13 @@ class _PlaylistPageState extends State<PlaylistPage> {
                 actions: [
                   TextButton(
                     child:
-                        Text('Cancel', style: TextStyle(color: Colors.black)),
+                        const Text('Cancel', style: TextStyle(color: Colors.black)),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
                   TextButton(
-                    child: Text('OK', style: TextStyle(color: Colors.black)),
+                    child: const Text('OK', style: TextStyle(color: Colors.black)),
                     onPressed: () {
                       playlist.addAll(
                           selectedSongKeys.map((key) => key.toString()));

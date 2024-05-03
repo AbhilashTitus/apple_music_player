@@ -17,7 +17,7 @@ class _CustomBottomNavigationBarState extends State<CustomBottomNavigationBar> {
     return BottomNavigationBar(
       elevation: 10.0,
       selectedItemColor: const Color.fromARGB(255, 0, 0, 0),
-      unselectedItemColor: const Color.fromARGB(255, 40, 39, 39),
+      unselectedItemColor: Color.fromARGB(255, 161, 159, 159),
       currentIndex: widget.selectedIndex,
       onTap: widget.onItemTapped,
       items: const [
