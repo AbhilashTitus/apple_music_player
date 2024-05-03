@@ -62,28 +62,37 @@ class _HomePageState extends State<HomePage> {
       context: context,
       builder: (context) {
         TextEditingController controller = TextEditingController();
-        return AlertDialog(
-          title: const Text('New Playlist'),
-          content: TextField(
-            controller: controller,
-            decoration: const InputDecoration(hintText: 'Enter playlist name'),
+        return Theme(
+          data: ThemeData(
+              dialogBackgroundColor: Colors.white,
+              dialogTheme: DialogTheme(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10)))),
+          child: AlertDialog(
+            title: const Text('New Playlist'),
+            content: TextField(
+              controller: controller,
+              decoration:
+                  const InputDecoration(hintText: 'Enter playlist name'),
+            ),
+            actions: [
+              TextButton(
+                child:
+                    const Text('Cancel', style: TextStyle(color: Colors.black)),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('OK', style: TextStyle(color: Colors.black)),
+                onPressed: () {
+                  Box<List> playlistsBox = Hive.box<List>('playlists');
+                  playlistsBox.put(controller.text, []);
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
           ),
-          actions: [
-            TextButton(
-              child: const Text('Cancel'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-            TextButton(
-              child: const Text('OK'),
-              onPressed: () {
-                Box<List> playlistsBox = Hive.box<List>('playlists');
-                playlistsBox.put(controller.text, []);
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
         );
       },
     );
@@ -150,25 +159,37 @@ class _HomePageState extends State<HomePage> {
                     showDialog(
                       context: context,
                       builder: (context) {
-                        return AlertDialog(
-                          title: const Text('Delete Playlist'),
-                          content: const Text(
-                              'Are you sure you want to delete this playlist?'),
-                          actions: [
-                            TextButton(
-                              child: const Text('Cancel'),
-                              onPressed: () {
-                                Navigator.of(context).pop();
-                              },
+                        return Theme(
+                          data: ThemeData(
+                            dialogBackgroundColor: Colors.white,
+                            dialogTheme: DialogTheme(
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
                             ),
-                            TextButton(
-                              child: const Text('OK'),
-                              onPressed: () {
-                                box.delete(playlist);
-                                Navigator.of(context).pop();
-                              },
-                            ),
-                          ],
+                          ),
+                          child: AlertDialog(
+                            title: const Text('Delete Playlist'),
+                            content: const Text(
+                                'Are you sure you want to delete this playlist?'),
+                            actions: [
+                              TextButton(
+                                child: Text('Cancel',
+                                    style: TextStyle(color: Colors.black)),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                              TextButton(
+                                child: Text('OK',
+                                    style: TextStyle(color: Colors.black)),
+                                onPressed: () {
+                                  box.delete(playlist);
+                                  Navigator.of(context).pop();
+                                },
+                              ),
+                            ],
+                          ),
                         );
                       },
                     );
