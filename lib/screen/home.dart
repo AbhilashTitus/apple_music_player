@@ -9,7 +9,8 @@ import 'package:hive_flutter/hive_flutter.dart';
 class HomePage extends StatefulWidget {
   final ValueNotifier<MySongModel?> selectedSongNotifier;
 
-  const HomePage({Key? key, required this.selectedSongNotifier}) : super(key: key);
+  const HomePage({Key? key, required this.selectedSongNotifier})
+      : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -138,8 +139,10 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) =>
-                            PlaylistPage(playlistName: playlist),
+                        builder: (context) => PlaylistPage(
+                          playlistName: playlist,
+                          selectedSongNotifier: widget.selectedSongNotifier,
+                        ),
                       ),
                     );
                   },

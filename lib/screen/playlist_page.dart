@@ -4,8 +4,13 @@ import 'package:apple_music_player/model/MySongModel.dart';
 
 class PlaylistPage extends StatefulWidget {
   final String playlistName;
+  final ValueNotifier<MySongModel?> selectedSongNotifier;
 
-  const PlaylistPage({super.key, required this.playlistName});
+  const PlaylistPage({
+    Key? key,
+    required this.playlistName,
+    required this.selectedSongNotifier,
+  }) : super(key: key);
 
   @override
   _PlaylistPageState createState() => _PlaylistPageState();
@@ -79,6 +84,10 @@ class _PlaylistPageState extends State<PlaylistPage> {
           return ListTile(
             title: Text(song.title),
             subtitle: Text(song.artist),
+            onTap: () {
+              widget.selectedSongNotifier.value = song;
+              Navigator.pop(context);
+            },
           );
         },
       ),
