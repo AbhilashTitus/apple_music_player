@@ -7,9 +7,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:typed_data';
 
 class AllSongsPage extends StatefulWidget {
-  final Function(MySongModel) onSongSelected;
+  final ValueNotifier<MySongModel?> selectedSongNotifier;
 
-  const AllSongsPage({super.key, required this.onSongSelected});
+  const AllSongsPage({Key? key, required this.selectedSongNotifier}) : super(key: key);
 
   @override
   _AllSongsPageState createState() => _AllSongsPageState();
@@ -114,7 +114,7 @@ class _AllSongsPageState extends State<AllSongsPage> {
                   },
                 ),
                 onTap: () {
-                  widget.onSongSelected(song);
+                  widget.selectedSongNotifier.value = song;
                 },
               );
             },
@@ -124,4 +124,3 @@ class _AllSongsPageState extends State<AllSongsPage> {
     );
   }
 }
-// ignore_for_file: library_private_types_in_public_api

@@ -4,10 +4,9 @@ import '../model/MySongModel.dart';
 
 class SearchScreen extends StatefulWidget {
   final List<MySongModel> songs;
-  final Function(MySongModel) onSongSelected;
+  final ValueNotifier<MySongModel?> selectedSongNotifier;
 
-  const SearchScreen(
-      {super.key, required this.songs, required this.onSongSelected});
+  const SearchScreen({Key? key, required this.songs, required this.selectedSongNotifier}) : super(key: key);
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
@@ -76,12 +75,10 @@ class _SearchScreenState extends State<SearchScreen> {
                         ),
                         trailing: IconButton(
                           icon: const Icon(Icons.more_vert),
-                          onPressed: () {
-  
-                          },
+                          onPressed: () {},
                         ),
                         onTap: () {
-                          widget.onSongSelected(song);
+                          widget.selectedSongNotifier.value = song;
                         },
                       );
                     },
@@ -92,4 +89,3 @@ class _SearchScreenState extends State<SearchScreen> {
     );
   }
 }
-// ignore_for_file: library_private_types_in_public_api

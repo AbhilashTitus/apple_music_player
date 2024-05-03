@@ -1,5 +1,3 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:apple_music_player/model/MySongModel.dart';
@@ -96,3 +94,4 @@ class _PlaylistPageState extends State<PlaylistPage> {
     );
   }
 }
+// ignore_for_file: library_private_types_in_public_api

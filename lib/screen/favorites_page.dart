@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class FavoritesPage extends StatefulWidget {
-  const FavoritesPage({super.key});
+  final ValueNotifier<MySongModel?> selectedSongNotifier;
+
+  const FavoritesPage({Key? key, required this.selectedSongNotifier}) : super(key: key);
 
   @override
   _FavoritesPageState createState() => _FavoritesPageState();
@@ -20,8 +22,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
 
   Future<void> loadFavorites() async {
     try {
-      Box<MySongModel> favoritesBox =
-          await Hive.openBox<MySongModel>('favorites');
+      Box<MySongModel> favoritesBox = await Hive.openBox<MySongModel>('favorites');
       favorites = favoritesBox.values.toList();
       setState(() {});
     } catch (e) {
@@ -53,11 +54,13 @@ class _FavoritesPageState extends State<FavoritesPage> {
                 return ListTile(
                   title: Text(song.title),
                   subtitle: Text(song.artist),
+                  onTap: () {
+                    widget.selectedSongNotifier.value = song;
+                    Navigator.pop(context);
+                  },
                 );
               },
             ),
     );
   }
 }
-// ignore_for_file: library_private_types_in_public_api
-

@@ -8,7 +8,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import '../model/MySongModel.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({super.key});
+  const MainScreen({Key? key}) : super(key: key);
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -18,6 +18,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   MySongModel? _selectedSong;
   List<MySongModel> _songs = [];
+  ValueNotifier<MySongModel?> selectedSongNotifier = ValueNotifier<MySongModel?>(null);
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -30,6 +31,14 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     fetchSongs();
+    selectedSongNotifier.addListener(() {
+      if (selectedSongNotifier.value != null) {
+        setState(() {
+          _selectedSong = selectedSongNotifier.value;
+          _selectedIndex = 0; // Navigate to NowPlaying screen
+        });
+      }
+    });
   }
 
   void fetchSongs() async {
@@ -54,17 +63,12 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
     });
   }
 
-  void _onSongSelected(MySongModel song) {
-    FocusScope.of(context).unfocus();
-    setState(() {
-      _selectedSong = song;
-      _selectedIndex = 0;
-    });
+  @override
+  void dispose() {
+    selectedSongNotifier.dispose();
+    super.dispose();
   }
 
-  
-
- 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,10 +79,10 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
               ? NowPlaying(
                   song: _selectedSong!,
                 )
-              : Container(), 
-          const HomePage(),
-          AllSongsPage(onSongSelected: _onSongSelected),
-          SearchScreen(songs: _songs, onSongSelected: _onSongSelected),
+              : Container(),
+          HomePage(selectedSongNotifier: selectedSongNotifier),
+          AllSongsPage(selectedSongNotifier: selectedSongNotifier),
+          SearchScreen(songs: _songs, selectedSongNotifier: selectedSongNotifier),
         ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(

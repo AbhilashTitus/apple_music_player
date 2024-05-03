@@ -1,6 +1,5 @@
-// ignore_for_file: library_private_types_in_public_api
-
 import 'package:apple_music_player/controls/drawer.dart';
+import 'package:apple_music_player/model/MySongModel.dart';
 import 'package:apple_music_player/screen/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music_player/screen/favorites_page.dart';
@@ -8,7 +7,9 @@ import 'package:apple_music_player/screen/playlist_page.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final ValueNotifier<MySongModel?> selectedSongNotifier;
+
+  const HomePage({Key? key, required this.selectedSongNotifier}) : super(key: key);
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -28,7 +29,6 @@ class _HomePageState extends State<HomePage> {
       _selectedIndex = index;
     });
   }
-
 
   PreferredSizeWidget _buildAppBar(BuildContext context) {
     if (_selectedIndex == 1) {
@@ -111,7 +111,8 @@ class _HomePageState extends State<HomePage> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => const FavoritesPage(),
+                      builder: (context) => FavoritesPage(
+                          selectedSongNotifier: widget.selectedSongNotifier),
                     ),
                   );
                 },
@@ -123,61 +124,62 @@ class _HomePageState extends State<HomePage> {
                     Text('FAVORITES'),
                   ],
                 ),
-              ), ...box.keys.map((playlist) {
-                  return ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.black,
-                      backgroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+              ),
+              ...box.keys.map((playlist) {
+                return ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.black,
+                    backgroundColor: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            PlaylistPage(playlistName: playlist),
                       ),
-                    ),
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) =>
-                              PlaylistPage(playlistName: playlist),
-                        ),
-                      );
-                    },
-                    onLongPress: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Delete Playlist'),
-                            content: const Text(
-                                'Are you sure you want to delete this playlist?'),
-                            actions: [
-                              TextButton(
-                                child: const Text('Cancel'),
-                                onPressed: () {
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                              TextButton(
-                                child: const Text('OK'),
-                                onPressed: () {
-                                  box.delete(playlist);
-                                  Navigator.of(context).pop();
-                                },
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(Icons.playlist_play),
-                        const SizedBox(height: 20),
-                        Text(playlist),
-                      ],
-                    ),
-                  );
-                }),
+                    );
+                  },
+                  onLongPress: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Delete Playlist'),
+                          content: const Text(
+                              'Are you sure you want to delete this playlist?'),
+                          actions: [
+                            TextButton(
+                              child: const Text('Cancel'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                            TextButton(
+                              child: const Text('OK'),
+                              onPressed: () {
+                                box.delete(playlist);
+                                Navigator.of(context).pop();
+                              },
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(Icons.playlist_play),
+                      const SizedBox(height: 20),
+                      Text(playlist),
+                    ],
+                  ),
+                );
+              }).toList(),
             ],
           );
         },
