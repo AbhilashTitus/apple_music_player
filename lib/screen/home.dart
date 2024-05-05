@@ -1,6 +1,7 @@
 import 'package:apple_music_player/controls/drawer.dart';
 import 'package:apple_music_player/model/MySongModel.dart';
 import 'package:apple_music_player/screen/constants.dart';
+import 'package:apple_music_player/screen/recentlyPlayedPage.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music_player/screen/favorites_page.dart';
 import 'package:apple_music_player/screen/playlist_page.dart';
@@ -85,9 +86,23 @@ class _HomePageState extends State<HomePage> {
         builder: (context, Box<List> box, _) {
           return GridView.count(
             crossAxisCount: 2,
-            crossAxisSpacing: 10, 
+            crossAxisSpacing: 10,
             mainAxisSpacing: 10,
             children: [
+              CustomElevatedButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => RecentlyPlayedPage(
+                          selectedSongNotifier: widget.selectedSongNotifier),
+                      ),
+                  );
+                },
+                onLongPress: () {},
+                icon: Icons.history,
+                text: 'RECENTLY PLAYED',
+              ),
               CustomElevatedButton(
                 onPressed: () {
                   Navigator.push(

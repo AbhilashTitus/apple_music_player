@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-
 class RecorderScreen extends StatelessWidget {
   const RecorderScreen({super.key});
 

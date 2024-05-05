@@ -128,20 +128,20 @@ class _PlaylistPageState extends State<PlaylistPage> {
       builder: (context) {
         TextEditingController controller = TextEditingController();
         return AlertDialog(
-          title: Text('Rename Playlist'),
+          title: const Text('Rename Playlist'),
           content: TextField(
             controller: controller,
-            decoration: InputDecoration(hintText: 'Enter new playlist name'),
+            decoration: const InputDecoration(hintText: 'Enter new playlist name'),
           ),
           actions: [
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 PlaylistDBHelper.renamePlaylist(widget.playlistName, controller.text);
                 Navigator.of(context).pop();
@@ -159,17 +159,17 @@ class _PlaylistPageState extends State<PlaylistPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('Delete Playlist'),
-          content: Text('Are you sure you want to delete this playlist?'),
+          title: const Text('Delete Playlist'),
+          content: const Text('Are you sure you want to delete this playlist?'),
           actions: [
             TextButton(
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: Text('OK'),
+              child: const Text('OK'),
               onPressed: () {
                 PlaylistDBHelper.deletePlaylist(widget.playlistName);
                 Navigator.of(context).pop();
@@ -189,12 +189,13 @@ class _PlaylistPageState extends State<PlaylistPage> {
         title: Text(widget.playlistName),
         actions: <Widget>[
           PopupMenuButton<int>(
+            icon: const Icon(Icons.menu),
             itemBuilder: (context) => [
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 1,
                 child: Text("Rename Playlist"),
               ),
-              PopupMenuItem(
+              const PopupMenuItem(
                 value: 2,
                 child: Text("Delete Playlist"),
               ),

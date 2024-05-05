@@ -21,6 +21,17 @@ class _AllSongsPageState extends State<AllSongsPage> {
   void initState() {
     super.initState();
     dbHelper.getPermissionStatus();
+    openRecentlyPlayedBox();
+  }
+
+  Future openRecentlyPlayedBox() async {
+    await Hive.openBox<MySongModel>('recentlyPlayed');
+  }
+
+  @override
+  void dispose() {
+    Hive.box('recentlyPlayed').close();
+    super.dispose();
   }
 
   @override
@@ -78,6 +89,16 @@ class _AllSongsPageState extends State<AllSongsPage> {
                 ),
                 onTap: () {
                   widget.selectedSongNotifier.value = song;
+                  Box<MySongModel> recentlyPlayedBox =
+                      Hive.box<MySongModel>('recentlyPlayed');
+                  recentlyPlayedBox.put(
+                      song.data,
+                      MySongModel(
+                        title: song.title,
+                        artist: song.artist,
+                        data: song.data,
+                        albumArt: song.albumArt,
+                      ));
                 },
               );
             },
