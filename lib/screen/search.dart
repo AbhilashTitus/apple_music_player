@@ -1,6 +1,6 @@
+import 'package:apple_music_player/model/db_helper.dart';
 import 'package:apple_music_player/screen/constants.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
 import '../model/MySongModel.dart';
 
 class SearchScreen extends StatefulWidget {
@@ -8,14 +8,14 @@ class SearchScreen extends StatefulWidget {
   final ValueNotifier<MySongModel?> selectedSongNotifier;
 
   const SearchScreen(
-      {Key? key, required this.songs, required this.selectedSongNotifier})
-      : super(key: key);
+      {super.key, required this.songs, required this.selectedSongNotifier});
 
   @override
   _SearchScreenState createState() => _SearchScreenState();
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  SongDBHelper dbHelper = SongDBHelper(); 
   String query = '';
 
   @override
@@ -23,7 +23,7 @@ class _SearchScreenState extends State<SearchScreen> {
     final filteredSongs = widget.songs
         .where((song) => song.title.toLowerCase().contains(query.toLowerCase()))
         .toList();
-
+             
     return Scaffold(
       appBar: AppBar(
         title: const Text(
@@ -90,13 +90,7 @@ class _SearchScreenState extends State<SearchScreen> {
                           ],
                           onSelected: (value) {
                             if (value == 1) {
-                              Hive.box<MySongModel>('favorites')
-                                  .add(MySongModel(
-                                title: song.title,
-                                artist: song.artist,
-                                data: song.data,
-                                albumArt: song.albumArt,
-                              ));
+                              dbHelper.addToFavorites(song); // Use the instance to call the method
                             }
                           },
                         ),

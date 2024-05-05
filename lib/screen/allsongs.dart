@@ -1,58 +1,26 @@
-// ignore_for_file: library_private_types_in_public_api
-
+import 'package:apple_music_player/model/db_helper.dart';
 import 'package:apple_music_player/screen/constants.dart';
 import 'package:apple_music_player/model/MySongModel.dart';
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
-import 'package:on_audio_query/on_audio_query.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:typed_data';
+import 'package:hive_flutter/hive_flutter.dart';
 
 class AllSongsPage extends StatefulWidget {
   final ValueNotifier<MySongModel?> selectedSongNotifier;
 
-  const AllSongsPage({super.key, required this.selectedSongNotifier});
+  const AllSongsPage({Key? key, required this.selectedSongNotifier})
+      : super(key: key);
 
   @override
   _AllSongsPageState createState() => _AllSongsPageState();
 }
 
 class _AllSongsPageState extends State<AllSongsPage> {
-  bool permissionGranted = false;
+  SongDBHelper dbHelper = SongDBHelper();
 
   @override
   void initState() {
     super.initState();
-    getPermissionStatus();
-  }
-
-  void getPermissionStatus() async {
-    PermissionStatus permission = await Permission.audio.request();
-
-    if (permission.isGranted) {
-      final box = Hive.box<MySongModel>('songs');
-      if (box.isEmpty) {
-        fetchSongs();
-      } else {
-        setState(() {});
-      }
-    }
-  }
-
-  void fetchSongs() async {
-    final songs = await OnAudioQuery().querySongs();
-    final box = Hive.box<MySongModel>('songs');
-    for (var song in songs) {
-      Uint8List? albumArt =
-          await OnAudioQuery().queryArtwork(song.id, ArtworkType.AUDIO);
-      box.add(MySongModel(
-        title: song.title,
-        artist: song.artist ?? '',
-        data: song.data,
-        albumArt: albumArt,
-      ));
-    }
-    setState(() {});
+    dbHelper.getPermissionStatus();
   }
 
   @override
@@ -65,20 +33,13 @@ class _AllSongsPageState extends State<AllSongsPage> {
         ),
         centerTitle: true,
       ),
-      body: FutureBuilder<Box<MySongModel>>(
-        future: Hive.openBox<MySongModel>('songs'),
-        builder: (context, item) {
-          if (item.data == null) {
-            return const Center(
-              child: CircularProgressIndicator(
-                strokeWidth: 2,
-              ),
-            );
-          }
+      body: ValueListenableBuilder(
+        valueListenable: Hive.box<MySongModel>('songs').listenable(),
+        builder: (context, Box<MySongModel> box, _) {
           return ListView.builder(
-            itemCount: item.data?.length ?? 0,
+            itemCount: box.length,
             itemBuilder: (context, index) {
-              MySongModel song = item.data!.getAt(index)!;
+              MySongModel song = box.getAt(index)!;
               return ListTile(
                 leading: SizedBox(
                   width: 50,

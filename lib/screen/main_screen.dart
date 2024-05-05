@@ -9,7 +9,7 @@ import 'package:on_audio_query/on_audio_query.dart';
 import '../model/MySongModel.dart';
 
 class MainScreen extends StatefulWidget {
-  const MainScreen({Key? key}) : super(key: key);
+  const MainScreen({super.key});
 
   @override
   State<MainScreen> createState() => _MainScreenState();
@@ -36,7 +36,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       if (selectedSongNotifier.value != null) {
         setState(() {
           _selectedSong = selectedSongNotifier.value;
-          _selectedIndex = 0; // Navigate to NowPlaying screen
+          _selectedIndex = 0; 
         });
       }
     });

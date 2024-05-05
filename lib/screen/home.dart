@@ -37,7 +37,7 @@ class _HomePageState extends State<HomePage> {
         TextEditingController controller = TextEditingController();
         return Theme(
           data: ThemeData(
-              dialogBackgroundColor: Colors.white,
+              dialogBackgroundColor: Color.fromARGB(255, 255, 255, 255),
               dialogTheme: DialogTheme(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)))),
@@ -85,6 +85,8 @@ class _HomePageState extends State<HomePage> {
         builder: (context, Box<List> box, _) {
           return GridView.count(
             crossAxisCount: 2,
+            crossAxisSpacing: 10, 
+            mainAxisSpacing: 10,
             children: [
               CustomElevatedButton(
                 onPressed: () {
@@ -138,7 +140,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        foregroundColor: const Color.fromARGB(255, 255, 255, 255),
+        foregroundColor: Color.fromARGB(255, 255, 255, 255),
         onPressed: _addPlaylist,
         child: const Icon(Icons.add),
       ),

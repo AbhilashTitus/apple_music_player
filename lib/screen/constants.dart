@@ -14,7 +14,7 @@ class CustomElevatedButton extends StatelessWidget {
   final String text;
   final Color? iconColor;
 
-  const CustomElevatedButton({
+  const CustomElevatedButton({super.key, 
     required this.onPressed,
     required this.onLongPress,
     required this.icon,
@@ -27,7 +27,7 @@ class CustomElevatedButton extends StatelessWidget {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         foregroundColor: Colors.black,
-        backgroundColor: Color.fromARGB(255, 255, 255, 255),
+        backgroundColor: const Color.fromARGB(255, 255, 255, 255),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -70,13 +70,13 @@ Future<void> showCustomDialog({
           content: Text(content),
           actions: [
             TextButton(
+              onPressed: onCancel,
               child:
                   const Text('Cancel', style: TextStyle(color: Colors.black)),
-              onPressed: onCancel,
             ),
             TextButton(
-              child: const Text('OK', style: TextStyle(color: Colors.black)),
               onPressed: onOk,
+              child: const Text('OK', style: TextStyle(color: Colors.black)),
             ),
           ],
         ),
@@ -90,7 +90,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final TextStyle style;
 
-  const CustomAppBar({
+  const CustomAppBar({super.key, 
     required this.selectedIndex,
     required this.title,
     required this.style,
