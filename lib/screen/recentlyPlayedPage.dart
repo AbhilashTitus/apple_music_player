@@ -6,16 +6,18 @@ class RecentlyPlayedController {
   final ValueNotifier<bool> recentlyPlayedChangedNotifier =
       ValueNotifier(false);
 
-Future<List<MySongModel>> loadRecentlyPlayed() async {
-  Box<MySongModel> recentlyPlayedBox = await Hive.openBox<MySongModel>('recentlyPlayed');
-  List<MySongModel> recentlyPlayed = recentlyPlayedBox.values.toList();
-  recentlyPlayed.sort((a, b) {
-    DateTime aLastPlayed = a.lastPlayed ?? DateTime.now();
-    DateTime bLastPlayed = b.lastPlayed ?? DateTime.now();
-    return bLastPlayed.compareTo(aLastPlayed);
-  });
-  return recentlyPlayed;
-}
+  Future<List<MySongModel>> loadRecentlyPlayed() async {
+    Box<MySongModel> recentlyPlayedBox =
+        await Hive.openBox<MySongModel>('recentlyPlayed');
+    List<MySongModel> recentlyPlayed = recentlyPlayedBox.values.toList();
+    recentlyPlayed.sort((a, b) {
+      DateTime aLastPlayed = a.lastPlayed ?? DateTime.now();
+      DateTime bLastPlayed = b.lastPlayed ?? DateTime.now();
+      return bLastPlayed.compareTo(aLastPlayed);
+    });
+    return recentlyPlayed;
+  }
+
   Future<void> clearRecentlyPlayed() async {
     Box<MySongModel> recentlyPlayedBox =
         await Hive.openBox<MySongModel>('recentlyPlayed');
@@ -83,26 +85,38 @@ class RecentlyPlayedPage extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     child: Card(
+                      color: Colors.grey,
                       shape: RoundedRectangleBorder(
-                        borderRadius:
-                            BorderRadius.circular(10), 
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                      elevation: 5,
+                      elevation: 15,
                       child: GridTile(
                         footer: Column(
                           children: [
                             Text(
                               song.title,
                               overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             Text(
                               song.artist,
                               overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ],
                         ),
                         child: song.albumArt != null
-                            ? Image.memory(song.albumArt!, fit: BoxFit.cover)
+                            ? ClipRRect(
+                                borderRadius: BorderRadius.circular(15),
+                                child: Image.memory(song.albumArt!,
+                                    fit: BoxFit.cover),
+                              )
                             : const Icon(Icons.music_note),
                       ),
                     ),

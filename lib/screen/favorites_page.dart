@@ -45,7 +45,7 @@ class _FavoritesPageState extends State<FavoritesPage> {
           ? const Center(
               child: Text(
                 "No songs added",
-                style: TextStyle(fontSize: 18),
+                style: TextStyle(fontSize: 15),
               ),
             )
           : ListView.builder(
