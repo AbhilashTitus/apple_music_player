@@ -102,6 +102,7 @@ class _NowPlayingState extends State<NowPlaying> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(
           nowPlayingHeading,
@@ -110,22 +111,24 @@ class _NowPlayingState extends State<NowPlaying> {
         ),
         centerTitle: true,
       ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          CustomCard(song: widget.song),
-          AudioControls(
-            audioPlayer: audioPlayer,
-            isPlaying: isPlaying,
-            isShuffle: isShuffle,
-            isRepeat: isRepeat,
-            currentPosition: currentPosition,
-            totalDuration: totalDuration,
-            playAudio: playAudio,
-            toggleShuffle: toggleShuffle,
-            toggleRepeat: toggleRepeat,
-          ),
-        ],
+      body: SingleChildScrollView(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            CustomCard(song: widget.song),
+            AudioControls(
+              audioPlayer: audioPlayer,
+              isPlaying: isPlaying,
+              isShuffle: isShuffle,
+              isRepeat: isRepeat,
+              currentPosition: currentPosition,
+              totalDuration: totalDuration,
+              playAudio: playAudio,
+              toggleShuffle: toggleShuffle,
+              toggleRepeat: toggleRepeat,
+            ),
+          ],
+        ),
       ),
     );
   }

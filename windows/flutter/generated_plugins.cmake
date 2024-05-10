@@ -3,7 +3,7 @@
 #
 
 list(APPEND FLUTTER_PLUGIN_LIST
-  audiotags
+  audioplayers_windows
   permission_handler_windows
 )
 

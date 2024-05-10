@@ -43,7 +43,7 @@ class RecorderScreen extends StatelessWidget {
                         MaterialStateProperty.all<Color>(Colors.black),
                   ),
                   child: const Text('Save'),
-                ),
+                ), 
                 const SizedBox(width: 5),
                 ElevatedButton(
                   onPressed: () {},

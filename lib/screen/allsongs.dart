@@ -82,6 +82,7 @@ class _AllSongsPageState extends State<AllSongsPage> {
                         artist: song.artist,
                         data: song.data,
                         albumArt: song.albumArt,
+                        lastPlayed: DateTime.now(),
                       ));
                       print('Added song to favorites');
                     }
@@ -98,6 +99,7 @@ class _AllSongsPageState extends State<AllSongsPage> {
                         artist: song.artist,
                         data: song.data,
                         albumArt: song.albumArt,
+                        lastPlayed: DateTime.now(),
                       ));
                 },
               );

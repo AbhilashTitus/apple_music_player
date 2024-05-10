@@ -28,6 +28,7 @@ class SongDBHelper {
         artist: song.artist ?? '',
         data: song.data,
         albumArt: albumArt,
+        lastPlayed: DateTime.now(),
       ));
     }
   }

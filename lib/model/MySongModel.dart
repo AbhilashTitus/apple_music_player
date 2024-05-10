@@ -18,11 +18,14 @@ class MySongModel extends HiveObject {
   @HiveField(3)
   final Uint8List? albumArt;
 
+  @HiveField(4)
+  DateTime? lastPlayed;
+
   MySongModel({
     required this.title,
     required this.artist,
     required this.data,
     this.albumArt,
+    required this.lastPlayed,
   });
-
 }

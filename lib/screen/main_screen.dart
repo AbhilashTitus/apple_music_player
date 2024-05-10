@@ -51,6 +51,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
           title: song.title,
           artist: song.artist ?? '',
           data: song.data,
+          lastPlayed: DateTime.now(),
         );
       }).toList();
     } catch (e) {

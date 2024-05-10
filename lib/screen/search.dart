@@ -15,7 +15,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  SongDBHelper dbHelper = SongDBHelper(); 
+  SongDBHelper dbHelper = SongDBHelper();
   String query = '';
 
   @override
@@ -23,8 +23,9 @@ class _SearchScreenState extends State<SearchScreen> {
     final filteredSongs = widget.songs
         .where((song) => song.title.toLowerCase().contains(query.toLowerCase()))
         .toList();
-             
+
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: const Text(
           searchHeading,
@@ -90,7 +91,8 @@ class _SearchScreenState extends State<SearchScreen> {
                           ],
                           onSelected: (value) {
                             if (value == 1) {
-                              dbHelper.addToFavorites(song); // Use the instance to call the method
+                              dbHelper.addToFavorites(
+                                  song); 
                             }
                           },
                         ),
