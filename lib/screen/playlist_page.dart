@@ -26,6 +26,7 @@ class _PlaylistPageState extends State<PlaylistPage> {
     super.initState();
     loadSongs();
   }
+  
 
   Future<void> loadSongs() async {
     songs = await PlaylistHelper.loadSongs(widget.playlistName);

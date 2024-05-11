@@ -7,8 +7,15 @@ import 'package:just_audio/just_audio.dart';
 
 class NowPlaying extends StatefulWidget {
   final MySongModel? song;
+  final ValueNotifier<MySongModel?> selectedSongNotifier;
+  final ValueNotifier<int> currentSongIndexNotifier;
 
-  const NowPlaying({super.key, this.song});
+  const NowPlaying({
+    Key? key,
+    this.song,
+    required this.selectedSongNotifier,
+    required this.currentSongIndexNotifier,
+  }) : super(key: key);
 
   @override
   State<NowPlaying> createState() => _NowPlayingState();
@@ -104,6 +111,12 @@ class _NowPlayingState extends State<NowPlaying> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            // Navigator.of(context).pop();
+          },
+        ),
         title: const Text(
           nowPlayingHeading,
           textAlign: TextAlign.center,
@@ -115,7 +128,12 @@ class _NowPlayingState extends State<NowPlaying> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            CustomCard(song: widget.song),
+            ValueListenableBuilder<MySongModel?>(
+              valueListenable: widget.selectedSongNotifier,
+              builder: (context, selectedSong, child) {
+                return CustomCard(song: selectedSong);
+              },
+            ),
             AudioControls(
               audioPlayer: audioPlayer,
               isPlaying: isPlaying,
@@ -126,6 +144,9 @@ class _NowPlayingState extends State<NowPlaying> {
               playAudio: playAudio,
               toggleShuffle: toggleShuffle,
               toggleRepeat: toggleRepeat,
+              currentSongIndexNotifier: widget.currentSongIndexNotifier,
+              selectedSongNotifier: widget.selectedSongNotifier,
+              songs: const [],
             ),
           ],
         ),

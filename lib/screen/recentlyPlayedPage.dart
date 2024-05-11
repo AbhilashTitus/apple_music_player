@@ -17,6 +17,7 @@ class RecentlyPlayedController {
     });
     return recentlyPlayed;
   }
+  
 
   Future<void> clearRecentlyPlayed() async {
     Box<MySongModel> recentlyPlayedBox =
@@ -25,6 +26,7 @@ class RecentlyPlayedController {
     recentlyPlayedChangedNotifier.value = !recentlyPlayedChangedNotifier.value;
   }
 }
+
 
 class RecentlyPlayedPage extends StatelessWidget {
   final ValueNotifier<MySongModel?> selectedSongNotifier;

@@ -24,6 +24,7 @@ class _HomePageState extends State<HomePage> {
     super.initState();
     Hive.openBox<List>('playlists');
   }
+  
 
   void _onHomeTap(int index) {
     setState(() {

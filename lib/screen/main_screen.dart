@@ -19,7 +19,9 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
   int _selectedIndex = 0;
   MySongModel? _selectedSong;
   List<MySongModel> _songs = [];
-  ValueNotifier<MySongModel?> selectedSongNotifier = ValueNotifier<MySongModel?>(null);
+  ValueNotifier<MySongModel?> selectedSongNotifier =
+      ValueNotifier<MySongModel?>(null);
+  ValueNotifier<int> currentSongIndexNotifier = ValueNotifier<int>(0);
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
@@ -36,7 +38,7 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
       if (selectedSongNotifier.value != null) {
         setState(() {
           _selectedSong = selectedSongNotifier.value;
-          _selectedIndex = 0; 
+          _selectedIndex = 0;
         });
       }
     });
@@ -80,11 +82,17 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
           _selectedSong != null
               ? NowPlaying(
                   song: _selectedSong!,
+                  selectedSongNotifier: selectedSongNotifier,
+                  currentSongIndexNotifier: currentSongIndexNotifier,
                 )
               : const NowPlayingDummy(),
           HomePage(selectedSongNotifier: selectedSongNotifier),
-          AllSongsPage(selectedSongNotifier: selectedSongNotifier),
-          SearchScreen(songs: _songs, selectedSongNotifier: selectedSongNotifier),
+          AllSongsPage(
+            selectedSongNotifier: selectedSongNotifier,
+            currentSongIndexNotifier: currentSongIndexNotifier,
+          ),
+          SearchScreen(
+              songs: _songs, selectedSongNotifier: selectedSongNotifier),
         ],
       ),
       bottomNavigationBar: CustomBottomNavigationBar(

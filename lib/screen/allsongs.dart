@@ -6,9 +6,9 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 class AllSongsPage extends StatefulWidget {
   final ValueNotifier<MySongModel?> selectedSongNotifier;
+  final ValueNotifier<int> currentSongIndexNotifier;
 
-  const AllSongsPage({Key? key, required this.selectedSongNotifier})
-      : super(key: key);
+  const AllSongsPage({super.key, required this.selectedSongNotifier, required this.currentSongIndexNotifier});
 
   @override
   _AllSongsPageState createState() => _AllSongsPageState();
@@ -90,6 +90,7 @@ class _AllSongsPageState extends State<AllSongsPage> {
                 ),
                 onTap: () {
                   widget.selectedSongNotifier.value = song;
+                   widget.currentSongIndexNotifier.value = index;
                   Box<MySongModel> recentlyPlayedBox =
                       Hive.box<MySongModel>('recentlyPlayed');
                   recentlyPlayedBox.put(

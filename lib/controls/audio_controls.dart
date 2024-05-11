@@ -1,4 +1,6 @@
+import 'package:apple_music_player/model/MySongModel.dart';
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
 import 'package:just_audio/just_audio.dart';
 import 'dart:math' as math;
 
@@ -12,9 +14,12 @@ class AudioControls extends StatelessWidget {
   final Function playAudio;
   final Function toggleShuffle;
   final Function toggleRepeat;
+  final ValueNotifier<int> currentSongIndexNotifier;
+  final ValueNotifier<MySongModel?> selectedSongNotifier;
+  final List<MySongModel> songs;
 
-  const AudioControls({super.key, 
-    
+  const AudioControls({
+    super.key,
     required this.audioPlayer,
     required this.isPlaying,
     required this.isShuffle,
@@ -24,6 +29,9 @@ class AudioControls extends StatelessWidget {
     required this.playAudio,
     required this.toggleShuffle,
     required this.toggleRepeat,
+    required this.currentSongIndexNotifier,
+    required this.selectedSongNotifier,
+     required this.songs,
   });
 
   String formatDuration(Duration d) {
@@ -93,7 +101,17 @@ class AudioControls extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15.0),
                 elevation: 5.0,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (currentSongIndexNotifier.value > 0) {
+                      currentSongIndexNotifier.value--;
+                      selectedSongNotifier.value =
+                          Hive.box<MySongModel>('songs')
+                              .getAt(currentSongIndexNotifier.value);
+                      print(
+                          'Current song index: ${currentSongIndexNotifier.value}');
+                      print('Selected song: ${selectedSongNotifier.value}');
+                    }
+                  },
                   icon: const Icon(Icons.skip_previous),
                 ),
               ),
@@ -126,7 +144,18 @@ class AudioControls extends StatelessWidget {
                 borderRadius: BorderRadius.circular(15.0),
                 elevation: 5.0,
                 child: IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    if (currentSongIndexNotifier.value <
+                        Hive.box<MySongModel>('songs').length - 1) {
+                      currentSongIndexNotifier.value++;
+                      selectedSongNotifier.value =
+                          Hive.box<MySongModel>('songs')
+                              .getAt(currentSongIndexNotifier.value);
+                      print(
+                          'Current song index: ${currentSongIndexNotifier.value}');
+                      print('Selected song: ${selectedSongNotifier.value}');
+                    }
+                  },
                   icon: const Icon(Icons.skip_next),
                 ),
               ),

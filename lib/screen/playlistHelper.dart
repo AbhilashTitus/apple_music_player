@@ -8,7 +8,6 @@ class PlaylistHelper {
     try {
       return await PlaylistDBHelper.loadSongs(playlistName);
     } catch (e) {
-      print('Error: $e');
       return [];
     }
   }
@@ -105,6 +104,7 @@ class PlaylistHelper {
       builder: (context) {
         TextEditingController controller = TextEditingController();
         return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           title: const Text('Rename Playlist'),
           content: TextField(
             controller: controller,
@@ -112,13 +112,13 @@ class PlaylistHelper {
           ),
           actions: [
             TextButton(
-              child: const Text('Cancel'),
+              child: const Text('Cancel',style: TextStyle(color: Colors.black)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('OK'),
+              child: const Text('OK',style: TextStyle(color: Colors.black)),
               onPressed: () {
                 PlaylistDBHelper.renamePlaylist(playlistName, controller.text);
                 Navigator.of(context).pop();
@@ -136,17 +136,18 @@ class PlaylistHelper {
       context: context,
       builder: (context) {
         return AlertDialog(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
           title: const Text('Delete Playlist'),
           content: const Text('Are you sure you want to delete this playlist?'),
           actions: [
             TextButton(
-              child: const Text('Cancel'),
+              child: const Text('Cancel',style: TextStyle(color: Colors.black)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('OK'),
+              child: const Text('OK',style: TextStyle(color: Colors.black)),
               onPressed: () {
                 PlaylistDBHelper.deletePlaylist(playlistName);
                 Navigator.of(context).pop();
