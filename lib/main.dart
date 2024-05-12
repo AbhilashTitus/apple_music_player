@@ -10,6 +10,7 @@ void main() async {
   await Hive.openBox<MySongModel>('songs');
   await Hive.openBox<MySongModel>('favorites');
   await Hive.openBox<List>('playlists');
+  await Hive.openBox<MySongModel>('recordings');
 
   runApp(const MyApp());
 }

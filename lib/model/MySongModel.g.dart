@@ -22,13 +22,17 @@ class MySongModelAdapter extends TypeAdapter<MySongModel> {
       data: fields[2] as String,
       albumArt: fields[3] as Uint8List?,
       lastPlayed: fields[4] as DateTime?,
+      filePath: fields[5] as String?,
+      recordTitle: fields[6] as String?,
+      duration: fields[7] as String?,
+      dateRecorded: fields[8] as DateTime?,
     );
   }
 
   @override
   void write(BinaryWriter writer, MySongModel obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(9)
       ..writeByte(0)
       ..write(obj.title)
       ..writeByte(1)
@@ -38,7 +42,15 @@ class MySongModelAdapter extends TypeAdapter<MySongModel> {
       ..writeByte(3)
       ..write(obj.albumArt)
       ..writeByte(4)
-      ..write(obj.lastPlayed);
+      ..write(obj.lastPlayed)
+      ..writeByte(5)
+      ..write(obj.filePath)
+      ..writeByte(6)
+      ..write(obj.recordTitle)
+      ..writeByte(7)
+      ..write(obj.duration)
+      ..writeByte(8)
+      ..write(obj.dateRecorded);
   }
 
   @override

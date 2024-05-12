@@ -21,11 +21,27 @@ class MySongModel extends HiveObject {
   @HiveField(4)
   DateTime? lastPlayed;
 
+  @HiveField(5)
+  final String? filePath;
+
+  @HiveField(6)
+  String? recordTitle; 
+
+  @HiveField(7)
+  String? duration;
+
+  @HiveField(8)
+  DateTime? dateRecorded;
+
   MySongModel({
     required this.title,
     required this.artist,
     required this.data,
     this.albumArt,
     required this.lastPlayed,
+    this.filePath,
+    this.recordTitle, 
+    this.duration,
+    this.dateRecorded,
   });
 }

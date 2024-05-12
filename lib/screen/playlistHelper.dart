@@ -12,7 +12,8 @@ class PlaylistHelper {
     }
   }
 
-  static void addSong(BuildContext context, String playlistName, List<int> selectedSongKeys, Function loadSongs) {
+  static void addSong(BuildContext context, String playlistName,
+      List<int> selectedSongKeys, Function loadSongs) {
     showDialog(
       context: context,
       builder: (context) {
@@ -37,7 +38,7 @@ class PlaylistHelper {
           child: StatefulBuilder(
             builder: (BuildContext context, StateSetter setState) {
               return AlertDialog(
-                title:const Text('Add Songs'),
+                title: const Text('Add Songs'),
                 content: SizedBox(
                   width: double.maxFinite,
                   child: ListView.builder(
@@ -58,6 +59,7 @@ class PlaylistHelper {
                         ),
                         trailing: Checkbox(
                           value: selectedSongKeys.contains(allSongKeys[index]),
+                          activeColor: Colors.black,
                           onChanged: (bool? value) {
                             if (value == true) {
                               selectedSongKeys.add(allSongKeys[index]);
@@ -83,7 +85,8 @@ class PlaylistHelper {
                     child:
                         const Text('OK', style: TextStyle(color: Colors.black)),
                     onPressed: () {
-                      PlaylistDBHelper.addSongToPlaylist(playlistName, selectedSongKeys);
+                      PlaylistDBHelper.addSongToPlaylist(
+                          playlistName, selectedSongKeys);
                       selectedSongKeys.clear();
                       Navigator.of(context).pop();
                       loadSongs();
@@ -108,17 +111,19 @@ class PlaylistHelper {
           title: const Text('Rename Playlist'),
           content: TextField(
             controller: controller,
-            decoration: const InputDecoration(hintText: 'Enter new playlist name'),
+            decoration:
+                const InputDecoration(hintText: 'Enter new playlist name'),
           ),
           actions: [
             TextButton(
-              child: const Text('Cancel',style: TextStyle(color: Colors.black)),
+              child:
+                  const Text('Cancel', style: TextStyle(color: Colors.black)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('OK',style: TextStyle(color: Colors.black)),
+              child: const Text('OK', style: TextStyle(color: Colors.black)),
               onPressed: () {
                 PlaylistDBHelper.renamePlaylist(playlistName, controller.text);
                 Navigator.of(context).pop();
@@ -141,13 +146,14 @@ class PlaylistHelper {
           content: const Text('Are you sure you want to delete this playlist?'),
           actions: [
             TextButton(
-              child: const Text('Cancel',style: TextStyle(color: Colors.black)),
+              child:
+                  const Text('Cancel', style: TextStyle(color: Colors.black)),
               onPressed: () {
                 Navigator.of(context).pop();
               },
             ),
             TextButton(
-              child: const Text('OK',style: TextStyle(color: Colors.black)),
+              child: const Text('OK', style: TextStyle(color: Colors.black)),
               onPressed: () {
                 PlaylistDBHelper.deletePlaylist(playlistName);
                 Navigator.of(context).pop();
