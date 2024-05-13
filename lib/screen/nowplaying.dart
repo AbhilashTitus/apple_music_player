@@ -11,11 +11,11 @@ class NowPlaying extends StatefulWidget {
   final ValueNotifier<int> currentSongIndexNotifier;
 
   const NowPlaying({
-    Key? key,
+    super.key,
     this.song,
     required this.selectedSongNotifier,
     required this.currentSongIndexNotifier,
-  }) : super(key: key);
+  });
 
   @override
   State<NowPlaying> createState() => _NowPlayingState();

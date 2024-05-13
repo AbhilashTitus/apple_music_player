@@ -8,10 +8,10 @@ class PlaylistPage extends StatefulWidget {
   final ValueNotifier<MySongModel?> selectedSongNotifier;
 
   const PlaylistPage({
-    Key? key,
+    super.key,
     required this.playlistName,
     required this.selectedSongNotifier,
-  }) : super(key: key);
+  });
 
   @override
   _PlaylistPageState createState() => _PlaylistPageState();

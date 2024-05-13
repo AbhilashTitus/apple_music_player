@@ -39,7 +39,7 @@ class _HomePageState extends State<HomePage> {
         TextEditingController controller = TextEditingController();
         return Theme(
           data: ThemeData(
-              dialogBackgroundColor: Color.fromARGB(255, 255, 255, 255),
+              dialogBackgroundColor: const Color.fromARGB(255, 255, 255, 255),
               dialogTheme: DialogTheme(
                   shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10)))),
@@ -156,7 +156,7 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color.fromARGB(255, 0, 0, 0),
-        foregroundColor: Color.fromARGB(255, 255, 255, 255),
+        foregroundColor: const Color.fromARGB(255, 255, 255, 255),
         onPressed: _addPlaylist,
         child: const Icon(Icons.add),
       ),

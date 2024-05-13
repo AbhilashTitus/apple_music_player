@@ -1,3 +1,4 @@
+import 'package:apple_music_player/screen/settings/settings_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:apple_music_player/screen/recorder/recordscreen.dart';
 
@@ -65,7 +66,13 @@ class AppDrawer extends StatelessWidget {
                       child: Image.asset('assets/settingslogo.png'),
                     ),
                     title: const Text('SETTINGS'),
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const SettingsScreen()),
+                      );
+                    },
                   ),
                 ],
               ),

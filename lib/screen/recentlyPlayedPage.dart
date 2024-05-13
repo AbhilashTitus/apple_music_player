@@ -32,8 +32,7 @@ class RecentlyPlayedPage extends StatelessWidget {
   final ValueNotifier<MySongModel?> selectedSongNotifier;
   final RecentlyPlayedController controller = RecentlyPlayedController();
 
-  RecentlyPlayedPage({Key? key, required this.selectedSongNotifier})
-      : super(key: key);
+  RecentlyPlayedPage({super.key, required this.selectedSongNotifier});
 
   @override
   Widget build(BuildContext context) {
