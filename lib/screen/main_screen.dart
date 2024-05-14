@@ -1,3 +1,5 @@
+// ignore_for_file: empty_catches
+
 import 'package:apple_music_player/controls/NowPlayingDummy.dart';
 import 'package:apple_music_player/controls/bottom_navigation_bar.dart';
 import 'package:apple_music_player/screen/allsongs.dart';
@@ -57,7 +59,6 @@ class _MainScreenState extends State<MainScreen> with WidgetsBindingObserver {
         );
       }).toList();
     } catch (e) {
-      print("Error $e");
     }
   }
 

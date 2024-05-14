@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:apple_music_player/controls/drawer.dart';
 import 'package:apple_music_player/model/MySongModel.dart';
 import 'package:apple_music_player/screen/constants.dart';

@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:apple_music_player/model/db_helper.dart';
 import 'package:apple_music_player/screen/constants.dart';
 import 'package:apple_music_player/model/MySongModel.dart';
@@ -84,7 +86,6 @@ class _AllSongsPageState extends State<AllSongsPage> {
                         albumArt: song.albumArt,
                         lastPlayed: DateTime.now(),
                       ));
-                      print('Added song to favorites');
                     }
                   },
                 ),

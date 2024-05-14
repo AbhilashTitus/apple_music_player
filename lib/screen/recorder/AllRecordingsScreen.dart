@@ -1,9 +1,13 @@
+// ignore_for_file: file_names, library_private_types_in_public_api
+
 import 'package:apple_music_player/model/MySongModel.dart';
 import 'package:apple_music_player/screen/recorder/nowplayingrecording.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
 class AllRecordingsScreen extends StatefulWidget {
+  const AllRecordingsScreen({super.key});
+
   @override
   _AllRecordingsScreenState createState() => _AllRecordingsScreenState();
 }

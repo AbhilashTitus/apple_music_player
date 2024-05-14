@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api, empty_catches
+
 import 'package:apple_music_player/model/MySongModel.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
@@ -27,7 +29,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
       favorites = favoritesBox.values.toList();
       setState(() {});
     } catch (e) {
-      print('Error: $e');
     }
   }
 
@@ -82,7 +83,6 @@ class _FavoritesPageState extends State<FavoritesPage> {
                         setState(() {
                           favorites.removeAt(index);
                         });
-                        print('Removed song from favorites');
                       }
                     },
                   ),

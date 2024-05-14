@@ -1,3 +1,5 @@
+// ignore_for_file: library_private_types_in_public_api
+
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:apple_music_player/model/MySongModel.dart';
@@ -5,7 +7,7 @@ import 'package:apple_music_player/model/MySongModel.dart';
 class NowPlayingRecording extends StatefulWidget {
   final MySongModel recording;
 
-  NowPlayingRecording({required this.recording});
+  const NowPlayingRecording({super.key, required this.recording});
 
   @override
   _NowPlayingRecordingState createState() => _NowPlayingRecordingState();

@@ -107,9 +107,6 @@ class AudioControls extends StatelessWidget {
                       selectedSongNotifier.value =
                           Hive.box<MySongModel>('songs')
                               .getAt(currentSongIndexNotifier.value);
-                      print(
-                          'Current song index: ${currentSongIndexNotifier.value}');
-                      print('Selected song: ${selectedSongNotifier.value}');
                     }
                   },
                   icon: const Icon(Icons.skip_previous),
@@ -151,9 +148,6 @@ class AudioControls extends StatelessWidget {
                       selectedSongNotifier.value =
                           Hive.box<MySongModel>('songs')
                               .getAt(currentSongIndexNotifier.value);
-                      print(
-                          'Current song index: ${currentSongIndexNotifier.value}');
-                      print('Selected song: ${selectedSongNotifier.value}');
                     }
                   },
                   icon: const Icon(Icons.skip_next),

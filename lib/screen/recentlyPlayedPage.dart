@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import 'package:apple_music_player/model/MySongModel.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
